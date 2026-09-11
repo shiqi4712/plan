@@ -792,22 +792,30 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
         {showBrandPrelude ? (
           <section className="cp-page cp-brand-closing" aria-label="学编程选择编程猫">
             <Reveal className="cp-closing-heading">
-              <small>TIME 2025 · 全球顶尖教育科技公司榜单首位</small>
-              <h2><span>学编程，就选</span><em>北大合作品牌</em></h2>
-              <p>好课程 · 强师资 · 真成果</p>
+              <small>SINCE 2015 · 专注少儿编程</small>
+              <h2><span>11年编程猫</span><em>奠定少儿编程领域第一</em></h2>
+              <p>11年，有且只做一件事</p>
+            </Reveal>
+            <Reveal className="cp-closing-scale" delay={70}>
+              <div><strong>2015<small>年</small></strong><span>编程猫成立</span></div>
+              <div><strong>70000<small>+</small></strong><span>累计服务学校</span></div>
             </Reveal>
             <div className="cp-closing-poster cp-motion-image" data-motion-image>
               <Image
-                src="/images/course-plan/codemao-time-2025.webp"
-                alt="TIME《时代》2025年全球顶尖教育科技公司榜单：编程猫排名第一，得分99.8"
-                width={1876}
-                height={3126}
+                src="/images/course-plan/codemao-authority-partners.webp"
+                alt="编程猫与北京大学共建人工智能教育联合实验室，并与联合国教科文组织、教育部教育技术与资源发展中心、IOI及中国计算机学会开展官方合作"
+                width={1440}
+                height={1280}
                 quality={92}
-                sizes="(max-width: 359px) 240px, 254px"
+                sizes="(max-width: 479px) calc(100vw - 48px), 382px"
               />
             </div>
+            <Reveal className="cp-closing-story" delay={130}>
+              <h3>做适合中国孩子的少儿编程</h3>
+              <p>成立于2015年，以丰富的产品线与多样的课程形式，持续深耕少儿编程。11年专注，累计服务<strong>70000+所学校</strong>，把专业积累带进更多孩子的编程课堂。</p>
+              <p className="cp-closing-partnerships"><strong>北大联合共建 · 四大组织官方合作</strong><span>联合国教科文组织、教育部教育技术与资源发展中心、国际信奥赛（IOI）、中国计算机学会。</span></p>
+            </Reveal>
             <Reveal className="cp-closing-signoff" delay={180}>
-              <strong><b>11</b>年编程猫</strong>
               <span>用心做好编程教育</span>
             </Reveal>
           </section>

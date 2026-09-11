@@ -9,7 +9,7 @@ for (const profile of profiles) {
   const html = await response.text();
   const renderedText = html.replaceAll("<!-- -->", "");
   assert.equal((html.match(/<section\b/g) ?? []).length, 13, `${profile}: expected 13 pages`);
-  assert.ok(html.includes("北大合作品牌"), `${profile}: latest closing copy`);
+  assert.ok(html.includes("奠定少儿编程领域第一") && html.includes("codemao-authority-partners.webp"), `${profile}: latest closing copy and poster`);
   assert.ok(!html.includes("MONTHS"), `${profile}: Chinese month labels`);
   assert.ok(html.includes(profile.startsWith("yucai") ? 'aria-label="学习目标"' : 'aria-label="赛考目标"'));
   const className = profile === "yucai-rocket" ? "育才班" : profile === "yucai-preschool" || profile === "yingcai-python" ? "英才班" : "科特班";
