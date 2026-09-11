@@ -2857,9 +2857,9 @@ body:has(.course-plan-page--hybrid-trust-active) {
   min-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 30px 24px 76px;
-  color: #fff7e7;
-  background: #21160e;
+  padding: 24px 24px 32px;
+  color: #242424;
+  background: #fff;
   text-align: center;
 }
 
@@ -2869,34 +2869,9 @@ body:has(.course-plan-page--hybrid-trust-active) {
   right: 0;
   bottom: 0;
   left: 0;
-  height: 330px;
-  background: #b5000a;
+  height: 6px;
+  background: #dc292f;
   content: "";
-  clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
-}
-
-.course-plan-page--hybrid .cp-brand-closing::after {
-  position: absolute;
-  z-index: 0;
-  right: 20px;
-  bottom: 24px;
-  left: 20px;
-  height: 1px;
-  background: rgba(255, 219, 136, 0.34);
-  content: "";
-}
-
-.course-plan-page--hybrid .cp-closing-grid {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 213, 117, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 213, 117, 0.07) 1px, transparent 1px);
-  background-size: 26px 26px;
-  opacity: 0.56;
-  -webkit-mask-image: linear-gradient(180deg, #000, transparent 78%);
-  mask-image: linear-gradient(180deg, #000, transparent 78%);
 }
 
 .course-plan-page--hybrid .cp-closing-heading {
@@ -2906,9 +2881,10 @@ body:has(.course-plan-page--hybrid-trust-active) {
 
 .course-plan-page--hybrid .cp-closing-heading > small {
   display: block;
-  color: #ffd36d;
+  color: #a83a3e;
   font-family: "Sora", sans-serif;
-  font-size: 8px;
+  font-size: 10px;
+  line-height: 1.7;
   font-weight: 800;
 }
 
@@ -2926,33 +2902,32 @@ body:has(.course-plan-page--hybrid-trust-active) {
 }
 
 .course-plan-page--hybrid .cp-closing-heading h2 span {
-  color: rgba(255, 247, 231, 0.86);
+  color: #292929;
 }
 
 .course-plan-page--hybrid .cp-closing-heading h2 em {
   margin-top: 5px;
-  color: #ffd36d;
+  color: #d9232b;
   font-size: 36px;
-  text-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
 }
 
 .course-plan-page--hybrid .cp-closing-heading p {
   margin: 12px 0 0;
-  color: rgba(255, 247, 231, 0.66);
+  color: #747474;
   font-size: 11px;
   font-weight: 700;
 }
 
 .course-plan-page--hybrid .cp-closing-poster {
   z-index: 2;
-  width: min(254px, 74vw);
-  margin: 24px auto 0;
+  width: min(254px, 100%);
+  margin: 20px auto 0;
   overflow: visible;
-  border: 1px solid rgba(255, 220, 139, 0.54);
-  background: #2c1d11;
+  border: 1px solid #f0e4e4;
+  background: #fff;
   box-shadow:
-    0 36px 66px -25px rgba(0, 0, 0, 0.88),
-    0 0 0 5px rgba(255, 211, 109, 0.08);
+    0 26px 44px -22px rgba(111, 30, 33, 0.3),
+    0 3px 10px rgba(25, 25, 25, 0.04);
 }
 
 .course-plan-page--hybrid .cp-closing-poster::after {
@@ -2977,13 +2952,13 @@ body:has(.course-plan-page--hybrid-trust-active) {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-top: 28px;
+  margin-top: 22px;
   padding-top: 18px;
-  border-top: 1px solid rgba(255, 219, 136, 0.45);
+  border-top: 1px solid #eadcdd;
 }
 
 .course-plan-page--hybrid .cp-closing-signoff strong {
-  color: #ffd36d;
+  color: #d9232b;
   font-size: 28px;
   font-weight: 900;
   line-height: 1.3;
@@ -2992,10 +2967,16 @@ body:has(.course-plan-page--hybrid-trust-active) {
 .course-plan-page--hybrid .cp-closing-signoff strong b { font-size: 44px; margin-right: 5px; }
 
 .course-plan-page--hybrid .cp-closing-signoff span {
-  color: #fff7e7;
+  color: #292929;
   font-size: 20px;
   font-weight: 700;
   line-height: 1.6;
+}
+
+@media (max-width: 359px) {
+  .course-plan-page--hybrid .cp-closing-poster { width: min(240px, 100%); }
+  .course-plan-page--hybrid .cp-closing-heading h2 { font-size: 26px; }
+  .course-plan-page--hybrid .cp-closing-heading h2 em { font-size: 32px; }
 }
 
 @keyframes cp-closing-poster-float {

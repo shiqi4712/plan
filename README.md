@@ -5,12 +5,12 @@
 | 课线 | 正式链接 |
 | --- | --- |
 | 育才班·火箭 | https://plan.bcmty.cn/course-plan/yucai-rocket |
-| 育才班·幼儿 | https://plan.bcmty.cn/course-plan/yucai-preschool |
+| 英才班·幼儿 | https://plan.bcmty.cn/course-plan/yucai-preschool |
 | 科特班·探月 | https://plan.bcmty.cn/course-plan/kete-moon |
 | 科特班·Python | https://plan.bcmty.cn/course-plan/kete-python |
 | 英才班·Python | https://plan.bcmty.cn/course-plan/yingcai-python |
 
-每条课线13页。育才班使用“学习目标”，幼儿版保留两张目标海报，与火箭版共用时间表。根路径 `/` 返回404，请使用完整课线链接。项目不提供家长查询、管理后台或数据库服务，也不需要环境密钥。
+每条课线13页。火箭育才班及幼儿英才班使用“学习目标”，幼儿版保留两张目标海报，使用每周五18:00解锁的独立时间表。幼儿版保留原有 `yucai-preschool` 路径，兼容已发送链接；两版分别配置教学服务海报。根路径 `/` 返回404，请使用完整课线链接。项目不提供家长查询、管理后台或数据库服务，也不需要环境密钥。
 
 ## 本地运行
 
@@ -41,7 +41,7 @@ npm start -- --hostname 127.0.0.1 --port 3100
 - `scripts/import-course-materials.mjs`：从约定的原始物料目录生成 WebP。
 - `scripts/package-course-plans.mjs`：打包源码并生成文件清单与 SHA-256。
 
-该仓库保存已部署版本的源码，推送代码不会自动发布到服务器。
+该仓库保存最新源码，推送代码不会自动发布到服务器。此次幼儿班名与物料更新、火箭教学服务图替换、全课线 TIME 2025 红白末页调整先在本地验证，尚未部署；线上记录以 DEPLOYED.md 为准。
 
 ## 部署
 

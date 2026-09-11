@@ -355,7 +355,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
   const showBrandPrelude = variant === "hybrid";
   const pageCount = BASE_PAGE_COUNT + (showBrandPrelude ? HYBRID_ADDITIONAL_PAGE_COUNT : 0);
   const achievementPageIndex = showBrandPrelude ? -1 : 5;
-  const isHybridDarkPage = showBrandPrelude && ((currentPage >= 1 && currentPage <= OUTCOME_STORIES.length + 2) || currentPage === pageCount - 1);
+  const isHybridDarkPage = showBrandPrelude && currentPage >= 1 && currentPage <= OUTCOME_STORIES.length + 2;
 
   useEffect(() => {
     if (!presentation) setPayload(readPayloadFromLocation());
@@ -693,11 +693,11 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             <div className="cp-tutoring-detail cp-motion-image" data-motion-image>
               <Image
                 className="cp-tutoring-detail-image"
-                src="/images/course-plan/kete-tutoring-classroom-services.png"
+                src={presentation?.tutoringImage?.src ?? "/images/course-plan/kete-tutoring-classroom-services.png"}
                 unoptimized
-                alt="编程猫科特班教学服务：开学典礼、开课提醒、课前直播、课中监测与答疑、学情反馈、课后练习和阶段测评"
-                width={346}
-                height={669}
+                alt={presentation?.tutoringImage?.alt ?? "编程猫科特班教学服务：开学典礼、开课提醒、课前直播、课中监测与答疑、学情反馈、课后练习和阶段测评"}
+                width={presentation?.tutoringImage?.width ?? 346}
+                height={presentation?.tutoringImage?.height ?? 669}
                 sizes="(max-width: 519px) calc(100vw - 44px), 386px"
               />
             </div>
@@ -736,17 +736,17 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
           </Reveal>
           <Reveal className="cp-schedule-path" delay={190}>
             <header>
-              <small>{presentation ? "课前直播 · 编程实操 · 在线辅导" : "灵活时间 · 专属小班 · 全程带教"}</small>
+              <small>{presentation ? (presentation.schedule.liveTime ? "课前直播 · 编程实操 · 在线辅导" : "每周解锁 · 灵活实操 · 在线辅导") : "灵活时间 · 专属小班 · 全程带教"}</small>
               <strong>把合适的时间，变成稳定的成长节奏</strong>
             </header>
             <div className="cp-schedule-steps">
               <div>
                 <span><CalendarDays size={18} /></span>
-                <div><small>01</small><strong>{presentation ? "课前真人直播" : "灵活选择上课时间"}</strong><p>{presentation ? `周四、周五、周六三选一，${presentation.schedule.liveTime}开课；错过可联系老师补课。` : "根据孩子的日常安排，自由选择合适时段。"}</p></div>
+                <div><small>01</small><strong>{presentation ? (presentation.schedule.liveTime ? "课前真人直播" : "每周固定解锁新课") : "灵活选择上课时间"}</strong><p>{presentation ? (presentation.schedule.liveTime ? `周四、周五、周六三选一，${presentation.schedule.liveTime}开课；错过可联系老师补课。` : `每${presentation.schedule.unlockDay} ${presentation.schedule.unlockTime}解锁编程实操课，每周1次，每次2课时。`) : "根据孩子的日常安排，自由选择合适时段。"}</p></div>
               </div>
               <div>
                 <span><Clock3 size={18} /></span>
-                <div><small>02</small><strong>{presentation ? "实操解锁后灵活安排" : "固定专属小班席位"}</strong><p>{presentation ? `随课前直播于${presentation.schedule.unlockTime}解锁。周一、周四至周日，14:00–21:00可选学习时段。` : <><b>例如：周六下午</b>，确定后按固定节奏稳定学习。</>}</p></div>
+                <div><small>02</small><strong>{presentation ? "实操解锁后灵活安排" : "固定专属小班席位"}</strong><p>{presentation ? `${presentation.schedule.liveTime ? `随课前直播于${presentation.schedule.unlockTime}解锁。` : "解锁后按孩子的时间灵活安排。"}周一、周四至周日，14:00–21:00可选学习时段。` : <><b>例如：周六下午</b>，确定后按固定节奏稳定学习。</>}</p></div>
               </div>
               <div>
                 <span><GraduationCap size={18} /></span>
@@ -781,20 +781,19 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
 
         {showBrandPrelude ? (
           <section className="cp-page cp-brand-closing" aria-label="学编程选择编程猫">
-            <div className="cp-closing-grid" aria-hidden="true" />
             <Reveal className="cp-closing-heading">
-              <small>TRUSTED CHOICE · SINCE 2015</small>
+              <small>TIME 2025 · 全球顶尖教育科技公司榜单首位</small>
               <h2><span>学编程，就选</span><em>北大合作品牌</em></h2>
               <p>好课程 · 强师资 · 真成果</p>
             </Reveal>
             <div className="cp-closing-poster cp-motion-image" data-motion-image>
               <Image
-                src="/images/course-plan/codemao-programming-pioneer.png"
-                alt="编程猫中国少儿编程在线教育开创者市场地位声明"
-                width={1875}
-                height={3125}
+                src="/images/course-plan/codemao-time-2025.webp"
+                alt="TIME《时代》2025年全球顶尖教育科技公司榜单：编程猫排名第一，得分99.8"
+                width={1876}
+                height={3126}
                 quality={92}
-                sizes="(max-width: 519px) 254px, 254px"
+                sizes="(max-width: 359px) 240px, 254px"
               />
             </div>
             <Reveal className="cp-closing-signoff" delay={180}>

@@ -8,6 +8,7 @@ export type CoursePlanProfile = {
   name: string;
   className: "育才班" | "科特班" | "英才班";
   courseLine: CoursePlanLineId;
+  tutoringImage?: PlanImage;
   syllabus: { title: string; stats: Stat[]; image: PlanImage };
   goals: {
     title: "学习目标" | "赛考目标";
@@ -18,7 +19,9 @@ export type CoursePlanProfile = {
     outputs: Stat[];
     images: PlanImage[];
   };
-  schedule: { image: PlanImage; unlockTime: string; liveTime: string };
+  schedule: { image: PlanImage; unlockTime: string } & (
+    { liveTime: string; unlockDay?: never } | { liveTime?: never; unlockDay: string }
+  );
 };
 
 function material(profile: string, asset: string, width: number, height: number, alt: string): PlanImage {
@@ -51,6 +54,7 @@ const rocketSchedule = {
 export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
   "yucai-rocket": {
     id: "yucai-rocket", name: "育才班·火箭", className: "育才班", courseLine: "rocket",
+    tutoringImage: material("yucai-rocket", "yucai-services", 418, 791, "编程猫育才班教学服务：开学典礼、开课提醒、课前真人直播、课中监测与答疑、学情反馈、课后练习和阶段测评"),
     syllabus: {
       title: "火箭编程思维课程大纲",
       stats: [{ value: "25", label: "编程创作项目" }, { value: "10", label: "创意搭建作品" }, { value: "500+", label: "互动思考" }],
@@ -69,7 +73,8 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
     schedule: rocketSchedule
   },
   "yucai-preschool": {
-    id: "yucai-preschool", name: "育才班·幼儿", className: "育才班", courseLine: "rocket",
+    id: "yucai-preschool", name: "英才班·幼儿", className: "英才班", courseLine: "rocket",
+    tutoringImage: material("yucai-preschool", "yingcai-services", 416, 800, "编程猫英才班教学服务：开学典礼、开课提醒、课中监测与答疑、学情反馈、单元真人直播、课后练习和阶段测评"),
     syllabus: {
       title: "幼儿编程思维课程大纲",
       stats: [{ value: "500+", label: "互动思考" }, { value: "25", label: "编创作品" }, { value: "25", label: "动口演讲表达" }],
@@ -88,8 +93,10 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
         material("yucai-preschool", "goals-outcomes", 1600, 2922, "育才班学习效果：独立创作、逻辑思维、问题解决与学科应用")
       ]
     },
-    // Confirmed by the user: both Yucai courses share this timetable.
-    schedule: rocketSchedule
+    schedule: {
+      image: material("yucai-preschool", "yingcai-schedule", 2620, 1507, "小火箭英才班学习时间安排表：每周五18:00解锁，解锁后灵活安排"),
+      unlockTime: "18:00", unlockDay: "周五"
+    }
   },
   "kete-moon": {
     id: "kete-moon", name: "科特班·探月", className: "科特班", courseLine: "moon",

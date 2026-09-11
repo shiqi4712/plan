@@ -13,14 +13,24 @@ test("public course links are a fixed whitelist, including safe handling of prot
   }
 });
 
-test("Yucai uses learning goals and keeps both preschool materials with the agreed shared schedule", () => {
+test("preschool keeps its shared link and learning goals with the new Yingcai timetable", () => {
   const preschool = COURSE_PLAN_PROFILES["yucai-preschool"];
   const rocket = COURSE_PLAN_PROFILES["yucai-rocket"];
   assert.equal(preschool.goals.title, "学习目标");
   assert.equal(rocket.goals.title, "学习目标");
   assert.equal(preschool.goals.images.length, 2);
   assert.equal(new Set(preschool.goals.images.map((image) => image.src)).size, 2);
-  assert.deepEqual(preschool.schedule, rocket.schedule);
+  assert.equal(preschool.className, "英才班");
+  assert.equal(preschool.name, "英才班·幼儿");
+  assert.equal(preschool.schedule.unlockDay, "周五");
+  assert.equal(preschool.schedule.unlockTime, "18:00");
+  assert.equal(preschool.schedule.liveTime, undefined);
+  assert.equal(rocket.schedule.liveTime, "19:00");
+  assert.equal(rocket.schedule.unlockTime, "19:15");
+  assert.notEqual(preschool.schedule.image.src, rocket.schedule.image.src);
+  assert.ok(preschool.tutoringImage);
+  assert.ok(rocket.tutoringImage);
+  assert.notEqual(preschool.tutoringImage.src, rocket.tutoringImage.src);
   assert.notEqual(preschool.syllabus.image.src, rocket.syllabus.image.src);
 });
 
@@ -39,7 +49,7 @@ test("moon and Python versions keep their own course materials and milestone dat
 
 test("all configured posters are available locally for deployment", async () => {
   for (const profile of Object.values(COURSE_PLAN_PROFILES)) {
-    for (const image of [profile.syllabus.image, ...profile.goals.images, profile.schedule.image]) {
+    for (const image of [profile.syllabus.image, ...profile.goals.images, profile.schedule.image, ...(profile.tutoringImage ? [profile.tutoringImage] : [])]) {
       assert.ok(image.src.startsWith("/images/course-plan/"));
       assert.ok(image.width > 0 && image.height > 0 && image.alt);
       await access(path.join(process.cwd(), "public", image.src));
