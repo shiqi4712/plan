@@ -813,7 +813,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             <Reveal className="cp-closing-story" delay={130}>
               <h3>做适合中国孩子的少儿编程</h3>
               <p>成立于2015年，以丰富的产品线与多样的课程形式，持续深耕少儿编程。11年专注，累计服务<strong>70000+所学校</strong>，把专业积累带进更多孩子的编程课堂。</p>
-              <p className="cp-closing-partnerships"><strong>北大联合共建 · 四大组织官方合作</strong><span>联合国教科文组织、教育部教育技术与资源发展中心、国际信奥赛（IOI）、中国计算机学会。</span></p>
+              <p className="cp-closing-partnerships"><strong>五大权威组织机构认证</strong><span>联合国教科文组织、教育部教育技术与资源发展中心、国际信奥赛（IOI）、中国计算机学会、中国人工智能学会。</span></p>
             </Reveal>
             <Reveal className="cp-closing-signoff" delay={180}>
               <span>用心做好编程教育</span>
