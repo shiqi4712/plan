@@ -1232,6 +1232,60 @@ body:has(.course-plan-page) {
   box-shadow: 0 18px 42px -22px rgba(112, 56, 50, 0.34);
 }
 
+.cp-research-results {
+  margin-top: 24px;
+  border-top: 2px solid #c91f32;
+}
+
+.cp-research-results dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.cp-research-results dl > div {
+  min-width: 0;
+  padding: 20px 12px;
+  border-bottom: 1px solid #e4dadd;
+}
+
+.cp-research-results dl > div:nth-child(odd) {
+  border-right: 1px solid #e4dadd;
+  padding-left: 0;
+}
+
+.cp-research-results dt {
+  color: #55505a;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.cp-research-results dd {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  min-height: 48px;
+  margin: 6px 0 0;
+  color: #c91f32;
+  font-family: "Sora", "Noto Sans SC", sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.cp-research-results dd small {
+  font-size: 18px;
+}
+
+.cp-research-results .cp-research-results__study {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: #252d3c;
+  font-size: 20px;
+}
+
 .cp-master-teacher-lead {
   position: relative;
   overflow: hidden;
@@ -2455,12 +2509,38 @@ body:has(.course-plan-page--hybrid-trust-active) {
 }
 
 .course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-proof {
-  grid-template-columns: 166px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  padding: 24px 0;
+}
+
+.course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-heading > p {
+  max-width: none;
+  color: #fff7e7;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-metric {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-metric span {
+  color: #ffe7ae;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-proof > p {
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 .course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-metric strong {
-  font-size: 55px;
+  font-size: 80px;
   line-height: 0.94;
   white-space: nowrap;
 }
@@ -2716,7 +2796,7 @@ body:has(.course-plan-page--hybrid-trust-active) {
   display: grid;
   height: 310px;
   padding: 24px 4px 0;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -3334,7 +3414,6 @@ body:has(.course-plan-page--hybrid-trust-active) {
   .course-plan-page--hybrid .cp-outcome-story { padding-right: 18px; padding-left: 18px; }
   .course-plan-page--hybrid .cp-outcome-heading { padding-right: 94px; }
   .course-plan-page--hybrid .cp-outcome-proof { grid-template-columns: 124px minmax(0, 1fr); gap: 14px; }
-  .course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-proof { grid-template-columns: 152px minmax(0, 1fr); gap: 12px; }
   .course-plan-page--hybrid .cp-outcome-story--tech-talent .cp-outcome-proof { grid-template-columns: 144px minmax(0, 1fr); gap: 11px; }
   .course-plan-page--hybrid .cp-brand-prelude { padding-right: 16px; padding-left: 16px; }
   .course-plan-page--hybrid .cp-prelude-copy h2 { font-size: 36px; }
@@ -3349,10 +3428,9 @@ body:has(.course-plan-page--hybrid-trust-active) {
   .course-plan-page--hybrid .cp-outcome-heading h2 em { font-size: 32px; }
   .course-plan-page--hybrid .cp-outcome-heading > p { font-size: 9.5px; }
   .course-plan-page--hybrid .cp-outcome-proof { grid-template-columns: 112px minmax(0, 1fr); gap: 11px; }
-  .course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-proof { grid-template-columns: 139px minmax(0, 1fr); gap: 9px; }
   .course-plan-page--hybrid .cp-outcome-metric { padding-right: 10px; }
   .course-plan-page--hybrid .cp-outcome-metric strong { font-size: 50px; }
-  .course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-metric strong { font-size: 48px; }
+  .course-plan-page--hybrid .cp-outcome-story--admission .cp-outcome-metric strong { font-size: 72px; }
   .course-plan-page--hybrid .cp-outcome-story--tech-talent .cp-outcome-proof { grid-template-columns: 138px minmax(0, 1fr); gap: 10px; }
   .course-plan-page--hybrid .cp-outcome-story--tech-talent .cp-outcome-metric strong { font-size: 26px; }
   .course-plan-page--hybrid .cp-outcome-proof > p { font-size: 10.5px; }

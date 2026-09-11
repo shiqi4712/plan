@@ -5,7 +5,6 @@ import { COURSE_PLAN_PROFILES, type CoursePlanProfile } from "@/lib/course-plan-
 import {
   type CSSProperties,
   type ReactNode,
-  Fragment,
   useEffect,
   useMemo,
   useRef,
@@ -45,20 +44,20 @@ const ACHIEVEMENT_POSTERS = [
 const OUTCOME_STORIES = [
   {
     id: "ioi-gold",
-    eyebrow: "STUDENT OUTCOMES / 01",
+    eyebrow: "STUDENT OUTCOMES / 03",
     accent: "信奥金牌",
     headline: "信奥金牌",
     claim: "行业第一",
-    subtitle: "自2015年至今，持续站上信息学奥赛金牌领奖台",
-    metric: "58",
+    subtitle: "2026 年斩获 38 枚金牌，国内与海外赛场双线闪耀",
+    metric: "38",
     unit: "枚",
-    metricLabel: "信息学奥林匹克竞赛金牌",
-    statement: "从竞赛启蒙到国际舞台，用系统培养兑现顶尖成果。",
+    metricLabel: "2026 年信息学奥赛金牌",
+    statement: "31 枚海外金牌 + 7 枚中国金牌。2026 年，编程猫合计斩获 38 枚信息学奥林匹克竞赛金牌。",
     facts: [],
-    image: "/images/course-plan/outcome-ioi-58-gold.png",
-    imageWidth: 1875,
-    imageHeight: 3333,
-    imageAlt: "编程猫累计斩获58枚信息学奥林匹克竞赛金牌",
+    image: "/images/course-plan/outcome-ioi-38-gold-2026.webp",
+    imageWidth: 1090,
+    imageHeight: 1936,
+    imageAlt: "编程猫2026年斩获38枚信息学奥林匹克竞赛金牌：31枚海外金牌与7枚中国金牌",
     tone: "gold"
   },
   {
@@ -84,10 +83,10 @@ const OUTCOME_STORIES = [
     accent: "助力升学",
     headline: "科技特长生",
     claim: "助力升学",
-    subtitle: "走科技特长路径，关键升学节点持续放大竞争优势",
+    subtitle: "走科技特长路径\n关键升学节点持续放大竞争优势",
     metric: "83%",
-    metricLabel: "重点高中 · 科技特长升学率",
-    statement: "重点初中79%、重点高中83%、重点大学69%，三大关键阶段全面领先，让编程能力成为升学新优势。",
+    metricLabel: "重点中学 · 科技特长升学率",
+    statement: "重点中学 83%、重点大学 69%，让编程能力成为关键升学节点的新优势。",
     facts: [],
     image: "/images/course-plan/outcome-admission-tech-path.png",
     imageWidth: 1280,
@@ -98,8 +97,7 @@ const OUTCOME_STORIES = [
 ] as const;
 
 const ADMISSION_COMPARISON = [
-  { stage: "重点初中", exam: 18, tech: 79 },
-  { stage: "重点高中", exam: 12, tech: 83 },
+  { stage: "重点中学", exam: 12, tech: 83 },
   { stage: "重点大学", exam: 2, tech: 69 }
 ] as const;
 
@@ -231,7 +229,7 @@ function AchievementPage({
   );
 }
 
-function UniversityPlacementPage() {
+function UniversityPlacementPage({ className }: { className: string }) {
   const [activePoster, setActivePoster] = useState(0);
   const posters = [
     { src: "/images/course-plan/outcome-university-singapore.webp", width: 1400, height: 2489, label: "国际金牌喜报", alt: "2026新加坡国家信息学奥林匹克竞赛喜报：编程猫助力17名金牌同学保送世界顶尖名校" },
@@ -241,9 +239,9 @@ function UniversityPlacementPage() {
     <section className="cp-page cp-outcome-story cp-outcome-story--placement" aria-label="科技特长生——保送名校">
       <PageMascot src="/images/course-plan/codemao-achievement.png" pose="achievement" width={1379} height={1391} />
       <Reveal className="cp-outcome-heading cp-outcome-heading--claim">
-        <small>STUDENT OUTCOMES / 03</small>
-        <h2><span>编程猫学员成长成果</span><em>科技特长生<b>——保送名校</b></em></h2>
-        <p>编程猫培养的学员，通过编程学习与竞赛获奖，获得名校保送、强基录取等成长机会，走向北京大学、清华大学、新加坡国立大学。</p>
+        <small>STUDENT OUTCOMES / 01</small>
+        <h2><span>{className}学员成长成果</span><em>科技特长生<b>——保送名校</b></em></h2>
+        <p>{className}培养的学员，通过编程学习与竞赛获奖，获得名校保送、强基录取等成长机会，走向北京大学、清华大学、新加坡国立大学。</p>
       </Reveal>
       <Reveal className="cp-university-schools" delay={80}>
         <div><strong>北京大学</strong><span>NOI 金牌保送</span></div>
@@ -277,13 +275,13 @@ function UniversityPlacementPage() {
   );
 }
 
-function OutcomeStoryPage({ story }: { story: (typeof OUTCOME_STORIES)[number] }) {
+function OutcomeStoryPage({ story, className }: { story: (typeof OUTCOME_STORIES)[number]; className: string }) {
   return (
-    <section className={`cp-page cp-outcome-story cp-outcome-story--${story.tone}`} aria-label={`科特班学生学习成果—${story.accent}`}>
+    <section className={`cp-page cp-outcome-story cp-outcome-story--${story.tone}`} aria-label={`${className}学生学习成果—${story.accent}`}>
       <PageMascot src="/images/course-plan/codemao-achievement.png" pose="achievement" width={1379} height={1391} />
       <Reveal className="cp-outcome-heading cp-outcome-heading--claim">
         <small>{story.eyebrow}</small>
-        <h2><span>科特班学生学习成果</span><em>{story.headline}<b>——{story.claim}</b></em></h2>
+        <h2><span>{className}学生学习成果</span><em>{story.headline}<b>——{story.claim}</b></em></h2>
         <p>{story.subtitle}</p>
       </Reveal>
       <Reveal className="cp-outcome-proof" delay={70}>
@@ -301,7 +299,7 @@ function OutcomeStoryPage({ story }: { story: (typeof OUTCOME_STORIES)[number] }
       {story.id === "admission" ? (
         <Reveal className="cp-admission-chart" delay={140}>
           <div className="cp-admission-chart-head">
-            <div><small>ADMISSION ADVANTAGE</small><strong>三大升学阶段 · 实力对比</strong></div>
+            <div><small>ADMISSION ADVANTAGE</small><strong>关键升学阶段 · 实力对比</strong></div>
             <div className="cp-admission-chart-legend" aria-hidden="true">
               <span><i />应试升学</span>
               <span><i />科技特长升学</span>
@@ -310,7 +308,7 @@ function OutcomeStoryPage({ story }: { story: (typeof OUTCOME_STORIES)[number] }
           <div
             className="cp-admission-chart-plot"
             role="img"
-            aria-label="科技特长升学率与应试升学率对比：重点初中79%比18%，重点高中83%比12%，重点大学69%比2%"
+            aria-label="科技特长升学率与应试升学率对比：重点中学83%比12%，重点大学69%比2%"
           >
             {ADMISSION_COMPARISON.map((item, index) => (
               <div className="cp-admission-chart-group" key={item.stage} style={{ "--chart-delay": `${index * 110}ms` } as CSSProperties}>
@@ -500,12 +498,14 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
           ) : null}
         </section>
 
-        {showBrandPrelude ? OUTCOME_STORIES.map((story) => (
-          <Fragment key={story.id}>
-            {story.id === "admission" ? <UniversityPlacementPage /> : null}
-            <OutcomeStoryPage story={story} />
-          </Fragment>
-        )) : null}
+        {showBrandPrelude ? (
+          <>
+            <UniversityPlacementPage className={heroTitle.main} />
+            <OutcomeStoryPage story={OUTCOME_STORIES[1]} className={heroTitle.main} />
+            <OutcomeStoryPage story={OUTCOME_STORIES[0]} className={heroTitle.main} />
+            <OutcomeStoryPage story={OUTCOME_STORIES[2]} className={heroTitle.main} />
+          </>
+        ) : null}
 
         {showBrandPrelude ? (
           <section className="cp-page cp-brand-prelude cp-brand-prelude--trust" aria-label="信任编程猫">
@@ -565,12 +565,12 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
           </section>
         )}
 
-        <section className={`cp-page cp-section${showPageMascots ? " cp-section--mascot" : ""}`} aria-label="专业师资">
+        <section className={`cp-page cp-section${showPageMascots ? " cp-section--mascot" : ""}`} aria-label="专业教研">
           {showPageMascots ? <PageMascot src="/images/course-plan/codemao-teacher.png" pose="teacher" width={685} height={1050} /> : null}
-          <Reveal><SectionHeading hideKicker index="03" label="TEACHERS" title="专业师资" subtitle={useSharedMaterials ? "北大认证 专业师资，全中心筛选金牌老师辅导" : "用清晰标准筛选老师，让孩子获得稳定、专业的长期陪伴。"} /></Reveal>
+          <Reveal><SectionHeading hideKicker index="03" label="TEACHERS" title="专业教研" subtitle={useSharedMaterials ? "北大认证专业教研，全公司筛选金牌老师辅导" : "用清晰标准筛选老师，让孩子获得稳定、专业的长期陪伴。"} /></Reveal>
           {useSharedMaterials ? (
             <Reveal className="cp-teacher-pillars" delay={80}>
-              <div><span><GraduationCap size={18} /></span><strong>全中心</strong><p>前5%名师教学</p></div>
+              <div><span><GraduationCap size={18} /></span><strong>全公司</strong><p>前5%名师教学</p></div>
               <div><span><BookOpenCheck size={18} /></span><strong>顶级教研</strong><p>研发课程</p></div>
               <div><span><Trophy size={18} /></span><strong>金牌赛考</strong><p>教练保驾护航</p></div>
             </Reveal>
@@ -592,13 +592,23 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               />
             </div>
           ) : null}
+          {useSharedMaterials ? (
+            <Reveal className="cp-research-results" delay={120}>
+              <dl>
+                <div><dt>编程猫排名</dt><dd><small>前</small>5<small>%</small></dd></div>
+                <div><dt>NCT 考级通过率</dt><dd>96<small>%↑</small></dd></div>
+                <div><dt>白名单赛事获奖率</dt><dd>93<small>%↑</small></dd></div>
+                <div><dt>定期系统学习深造</dt><dd className="cp-research-results__study"><GraduationCap size={24} aria-hidden="true" />北京大学</dd></div>
+              </dl>
+            </Reveal>
+          ) : null}
         </section>
 
         {showBrandPrelude ? (
-          <section className="cp-page cp-section cp-section--tint cp-section--mascot cp-master-teacher" aria-label="名师授课">
+          <section className="cp-page cp-section cp-section--tint cp-section--mascot cp-master-teacher" aria-label="上课老师">
             <PageMascot src="/images/course-plan/codemao-teacher.png" pose="teacher" width={685} height={1050} />
             <Reveal>
-              <SectionHeading hideKicker index="05" label="MASTER TEACHERS" title="名师授课" subtitle="北大官方认证的好老师，带来高标准专业课堂" />
+              <SectionHeading hideKicker index="05" label="MASTER TEACHERS" title="上课老师" subtitle="北大官方认证的好老师，带来高标准专业课堂" />
             </Reveal>
             <Reveal className="cp-master-teacher-lead" delay={70}>
               <small>PEKING UNIVERSITY CERTIFIED</small>
@@ -686,7 +696,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               index="05"
               label="TUTORING"
               title={`${heroTitle.main} 上课模式`}
-              subtitle={useSharedMaterials ? "专业老师保驾护航——学习不费爸妈" : "课前、课中、课后都有老师实时跟进，学习过程更安心。"}
+              subtitle={useSharedMaterials ? "直播 + 实操 + 遇到问题预约1V1辅导" : "课前、课中、课后都有老师实时跟进，学习过程更安心。"}
             />
           </Reveal>
           {useSharedMaterials ? (
