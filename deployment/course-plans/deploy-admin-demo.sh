@@ -60,6 +60,16 @@ umask 077
 password_hash=$(printf '%s' "$admin_password" | node -e 'const fs=require("node:fs"),c=require("node:crypto");const p=fs.readFileSync(0,"utf8"),s=c.randomBytes(16).toString("hex");process.stdout.write(s+":"+c.scryptSync(p,s,64).toString("hex"));')
 printf 'ADMIN_USERNAME=%s\nADMIN_PASSWORD_HASH=%s\n' "$admin_name" "$password_hash" > "$release/.env.local"
 unset admin_password admin_confirmation password_hash
+python3 - "$previous/.env.local" "$release/.env.local" <<'PY'
+from pathlib import Path
+import sys
+old, new = map(Path, sys.argv[1:])
+if old.exists():
+    for line in old.read_text().splitlines():
+        if line.startswith('ANALYTICS_HISTORY_FILE='):
+            with new.open('a') as stream:
+                stream.write(line + '\n')
+PY
 umask 022
 chown -R courseplan:courseplan "$release"
 

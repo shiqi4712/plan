@@ -18,7 +18,9 @@ const sources = [
   "app/admin/actions.ts", "app/admin/login/page.tsx", "app/admin/login/login.css",
   "app/admin/analytics/page.tsx", "app/admin/analytics/analytics.css",
   "components/AdminLogin.tsx", "components/AnalyticsDemo.tsx", "lib/admin-auth.ts",
-  "lib/analytics-demo.ts", "tests/analytics-demo.test.ts"
+  "lib/analytics-demo.ts", "tests/analytics-demo.test.ts", "components/HistoryAnalytics.tsx",
+  "lib/history-types.ts", "lib/history-store.ts", "scripts/import-access-history.py",
+  "tests/history-store.test.ts", "tests/test_access_history.py"
 ];
 
 for (const relative of sources) {
