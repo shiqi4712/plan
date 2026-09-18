@@ -14,7 +14,11 @@ const sources = [
   "lib/types.ts", "lib/programs.ts", "next.config.ts", "tsconfig.json",
   "package.json", "package-lock.json", "tests/course-plan-profiles.test.ts",
   "deployment/course-plans/nginx.conf", "deployment/course-plans/course-plans.service",
-  "deployment/course-plans/README.md", "scripts/verify-course-plans.mjs"
+  "deployment/course-plans/README.md", "scripts/verify-course-plans.mjs",
+  "app/admin/actions.ts", "app/admin/login/page.tsx", "app/admin/login/login.css",
+  "app/admin/analytics/page.tsx", "app/admin/analytics/analytics.css",
+  "components/AdminLogin.tsx", "components/AnalyticsDemo.tsx", "lib/admin-auth.ts",
+  "lib/analytics-demo.ts", "tests/analytics-demo.test.ts"
 ];
 
 for (const relative of sources) {

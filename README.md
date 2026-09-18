@@ -51,6 +51,8 @@ npm start -- --hostname 127.0.0.1 --port 3100
 
 ## 部署
 
+运营后台Demo入口为 `/admin/login`，包含管理员登录、模拟PV/UV与末页查阅统计、筛选导出及本地删除/恢复。此功能尚未接入真实访问采集。使用 `deployment/course-plans/deploy-admin-demo.sh` 发布到现有服务器；脚本交互配置管理员密码，创建独立版本并保留回滚。详细说明见 [运营后台Demo](docs/analytics-demo.md)。账号密码环境配置不提交Git。
+
 Ubuntu 使用独立用户 `courseplan`、服务 `course-plans` 和内部端口3100，Nginx 仅为 `plan.bcmty.cn` 转发。HTTPS 证书通过 Certbot 自动续期。
 
 实际部署位置、验收记录见 [DEPLOYED.md](deployment/course-plans/DEPLOYED.md)。部署脚本中的 `20260911T072601Z` 是首次发布版本号；后续发布应使用新目录并调整版本号。`activate-release.sh` 和 `publish-site.sh` 带首次部署前置检查，不应直接重复运行。先构建并验证新版本，再切换 `current`，仅重启 `course-plans`。
