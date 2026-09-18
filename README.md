@@ -10,7 +10,7 @@
 | 科特班·Python | https://plan.bcmty.cn/course-plan/kete-python |
 | 英才班·Python | https://plan.bcmty.cn/course-plan/yingcai-python |
 
-每条课线13页。火箭育才班及幼儿英才班使用“学习目标”，幼儿版保留两张目标海报，使用每周五18:00解锁的独立时间表。幼儿版保留原有 `yucai-preschool` 路径，兼容已发送链接；两版分别配置教学服务海报。根路径 `/` 返回404，请使用完整课线链接。项目不提供家长查询、管理后台或数据库服务，也不需要环境密钥。
+每条课线13页。火箭育才班及幼儿英才班使用“学习目标”，幼儿版保留两张目标海报，使用每周五18:00解锁的独立时间表。幼儿版保留原有 `yucai-preschool` 路径，兼容已发送链接；两版分别配置教学服务海报。根路径 `/` 返回404，请使用完整课线链接。项目提供管理员登录及历史访问后台，不提供家长查询；管理员凭据通过环境配置保存。
 
 ## 本地运行
 
@@ -51,7 +51,7 @@ npm start -- --hostname 127.0.0.1 --port 3100
 
 ## 部署
 
-运营后台Demo入口为 `/admin/login`，包含管理员登录、模拟PV/UV与末页查阅统计、筛选导出及本地删除/恢复。此功能尚未接入真实访问采集。使用 `deployment/course-plans/deploy-admin-demo.sh` 发布到现有服务器；脚本交互配置管理员密码，创建独立版本并保留回滚。详细说明见 [运营后台Demo](docs/analytics-demo.md)。账号密码环境配置不提交Git。
+运营后台入口为 `/admin/login`。生产环境已导入历史访问日志，通过 `ANALYTICS_HISTORY_FILE` 加载真实日志快照，支持筛选、导出及服务端删除。历史请求量和估算 UV 不等于精确家长人数；末页历史未采集，后续访问也不会自动追加到一次性快照。未配置历史文件的本地环境仍显示 Demo。详见 [历史数据说明](docs/historical-analytics.md)。发布脚本 `deployment/course-plans/deploy-admin-demo.sh` 保留已有历史文件配置及回滚版本；账号密码环境配置不提交 Git。
 
 Ubuntu 使用独立用户 `courseplan`、服务 `course-plans` 和内部端口3100，Nginx 仅为 `plan.bcmty.cn` 转发。HTTPS 证书通过 Certbot 自动续期。
 
