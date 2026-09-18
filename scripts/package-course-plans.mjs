@@ -20,7 +20,10 @@ const sources = [
   "components/AdminLogin.tsx", "components/AnalyticsDemo.tsx", "lib/admin-auth.ts",
   "lib/analytics-demo.ts", "tests/analytics-demo.test.ts", "components/HistoryAnalytics.tsx",
   "lib/history-types.ts", "lib/history-store.ts", "scripts/import-access-history.py",
-  "tests/history-store.test.ts", "tests/test_access_history.py"
+  "tests/history-store.test.ts", "tests/test_access_history.py",
+  "components/LiveAnalytics.tsx", "components/useCourseAnalytics.ts",
+  "lib/live-analytics-types.ts", "lib/live-analytics-store.ts",
+  "app/api/analytics/track/route.ts", "tests/live-analytics.test.ts"
 ];
 
 for (const relative of sources) {

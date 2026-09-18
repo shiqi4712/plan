@@ -6,6 +6,20 @@ import { ADMIN_COOKIE, SESSION_SECONDS, authenticate, endAdminSession } from '@/
 import { isAdmin } from '@/lib/admin-auth';
 import { deleteHistory } from '@/lib/history-store';
 import { revalidatePath } from 'next/cache';
+import { getLiveAnalytics, deleteLiveAnalytics } from '@/lib/live-analytics-store';
+import type { AnalyticsFilter } from '@/lib/live-analytics-types';
+
+export async function loadLiveAnalytics(filter: AnalyticsFilter) {
+  if (!await isAdmin()) throw new Error('请重新登录');
+  return getLiveAnalytics(filter);
+}
+
+export async function removeLiveAnalytics(filter: AnalyticsFilter) {
+  if (!await isAdmin()) throw new Error('请重新登录');
+  const count = deleteLiveAnalytics(filter);
+  revalidatePath('/admin/analytics');
+  return count;
+}
 
 export async function loginAdmin(_state: { error: string }, data: FormData): Promise<{ error: string }> {
   const username = data.get('username');

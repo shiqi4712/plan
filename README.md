@@ -51,7 +51,7 @@ npm start -- --hostname 127.0.0.1 --port 3100
 
 ## 部署
 
-运营后台入口为 `/admin/login`。生产环境已导入历史访问日志，通过 `ANALYTICS_HISTORY_FILE` 加载真实日志快照，支持筛选、导出及服务端删除。历史请求量和估算 UV 不等于精确家长人数；末页历史未采集，后续访问也不会自动追加到一次性快照。未配置历史文件的本地环境仍显示 Demo。详见 [历史数据说明](docs/historical-analytics.md)。发布脚本 `deployment/course-plans/deploy-admin-demo.sh` 保留已有历史文件配置及回滚版本；账号密码环境配置不提交 Git。
+运营后台入口为 `/admin/login`。五条课线自动采集访问量、匿名浏览器 UV 和末页查阅，后台支持每 30 秒刷新、筛选、导出及删除。SQLite 文件保存在版本目录外，重启和更新保留数据。历史日志通过 `ANALYTICS_HISTORY_FILE` 单独查看，不混入自动统计；历史末页无法恢复。详见 [自动统计与部署](docs/automatic-analytics.md) 和 [历史数据说明](docs/historical-analytics.md)。使用 `deployment/course-plans/deploy-live-analytics.sh` 更新服务器，沿用管理员凭据与历史数据；账号密码环境配置不提交 Git。
 
 Ubuntu 使用独立用户 `courseplan`、服务 `course-plans` 和内部端口3100，Nginx 仅为 `plan.bcmty.cn` 转发。HTTPS 证书通过 Certbot 自动续期。
 

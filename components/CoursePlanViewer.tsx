@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useCourseAnalytics } from './useCourseAnalytics';
 import { COURSE_PLAN_PROFILES, type CoursePlanProfile } from "@/lib/course-plan-profiles";
 import {
   type CSSProperties,
@@ -353,6 +354,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
   const showBrandPrelude = variant === "hybrid";
   const pageCount = BASE_PAGE_COUNT + (showBrandPrelude ? HYBRID_ADDITIONAL_PAGE_COUNT : 0);
   const achievementPageIndex = showBrandPrelude ? -1 : 5;
+  useCourseAnalytics(presentation?.id, currentPage === pageCount - 1, pagesRef);
   const isHybridDarkPage = showBrandPrelude && currentPage >= 1 && currentPage <= OUTCOME_STORIES.length + 2;
 
   useEffect(() => {

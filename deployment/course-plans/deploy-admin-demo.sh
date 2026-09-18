@@ -66,7 +66,7 @@ import sys
 old, new = map(Path, sys.argv[1:])
 if old.exists():
     for line in old.read_text().splitlines():
-        if line.startswith('ANALYTICS_HISTORY_FILE='):
+        if line.startswith(('ANALYTICS_HISTORY_FILE=', 'ANALYTICS_DB_FILE=', 'ANALYTICS_ORIGIN=')):
             with new.open('a') as stream:
                 stream.write(line + '\n')
 PY

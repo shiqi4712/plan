@@ -10,3 +10,4 @@ tsconfig.tsbuildinfo
 release-manifest.json
 .DS_Store
 __pycache__/
+.data/
