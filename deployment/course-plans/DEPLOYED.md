@@ -1,6 +1,19 @@
 # 正式部署记录
 
-## 2026-09-18 历史数据更新（当前版本）
+## 2026-09-18 自动统计（当前版本）
+
+- 当前版本：`/srv/course-plans/releases/20260918T063447Z-a4079347`，应用代码 `a407934`。
+- 上一版本：`/srv/course-plans/releases/20260918T063102Z-0ad5a687`；原历史后台版本仍保留。
+- 自动采集开始于北京时间 2026-09-18 14:35:22；五条课线自动记录 PV、匿名浏览器 UV、末页查阅及到达率。
+- SQLite：`/srv/course-plans/data/analytics.sqlite`，通过 `ANALYTICS_DB_FILE` 配置；历史快照及管理员凭据沿用。
+- 正式入口：https://plan.bcmty.cn/admin/analytics，默认今天，每 30 秒刷新。旧日志在“历史日志数据”中单独查看。
+- 末页口径：标题至少一半进入视口、前台持续停留满 1 秒，同次访问最多计一次；不是读完整页的证明。
+- 9 项测试、生产构建、五条课线与 46 项资源、正式域名上报、登录、筛选、导出、历史切换和移动端均通过验证。
+- 已验证版本切换后记录保留。两轮线上验收的 12 次访问和 2 次末页记录已按精确测试 ID 从统计中剔除，未按日期或课线清空生产数据。
+- 仅增加本子域名的 `/api/analytics/track` 转发并平滑重载 Nginx；其他应用未重启，其他四个站点返回 200。
+- 更新步骤见 `docs/automatic-analytics.md`，使用 `deployment/course-plans/deploy-live-analytics.sh`。
+
+## 2026-09-18 历史数据更新
 
 - 当前版本：`/srv/course-plans/releases/20260918-history-62d2a7b`，代码提交 `62d2a7b`。
 - 上一版本：`/srv/course-plans/releases/20260918T054508Z-6fbae090`，保留用于回滚。
