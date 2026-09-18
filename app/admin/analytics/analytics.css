@@ -18,4 +18,6 @@
 .ops-title-row { margin-bottom: 24px; }
 .ops-definitions article > svg { flex-shrink: 0; }
 @media(max-width:480px) { .ops-title-row { flex-wrap: wrap; gap: 12px; } .ops-title-row > div { width: 100%; } }
-.ops-source-switch { display: flex; gap: 16px; align-items: center; padding: 12px 24px; background: #fff; border-bottom: 1px solid #dfe3e8; flex-wrap: wrap; }
+.ops-source-switch { display: flex; gap: 16px; align-items: center; padding: 12px 24px; margin-left: 204px; background: #fff; border-bottom: 1px solid #dfe3e8; flex-wrap: wrap; }
+@media(max-width:1100px) { .ops-source-switch { margin-left: 176px; } }
+@media(max-width:760px) { .ops-source-switch { margin-left: 0; } }
