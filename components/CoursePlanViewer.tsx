@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { createPortal } from "react-dom";
 import { useCourseAnalytics } from './useCourseAnalytics';
 import { COURSE_PLAN_PROFILES, type CoursePlanProfile } from "@/lib/course-plan-profiles";
 import {
   type CSSProperties,
   type ReactNode,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -21,7 +23,11 @@ import {
   Clock3,
   GraduationCap,
   LibraryBig,
-  Trophy
+  Scan,
+  Trophy,
+  X,
+  ZoomIn,
+  ZoomOut
 } from "lucide-react";
 import {
   buildCoursePlanData,
@@ -101,6 +107,59 @@ const ADMISSION_COMPARISON = [
   { stage: "重点中学", exam: 12, tech: 83 },
   { stage: "重点大学", exam: 2, tech: 69 }
 ] as const;
+
+type LightboxImage = { src: string; alt: string };
+
+function MaterialLightbox({ image, onClose }: { image: LightboxImage | null; onClose: () => void }) {
+  const [zoom, setZoom] = useState(1);
+  const dialog = useRef<HTMLDivElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!image) return;
+    setZoom(1);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "+" || event.key === "=") setZoom((value) => Math.min(3, value + 0.5));
+      if (event.key === "-") setZoom((value) => Math.max(1, value - 0.5));
+      if (event.key === "Tab") {
+        const controls = Array.from(dialog.current?.querySelectorAll<HTMLButtonElement>("button:not(:disabled)") ?? []);
+        if (!controls.length) return;
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    window.requestAnimationFrame(() => closeButton.current?.focus());
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [image, onClose]);
+  if (!image) return null;
+  return createPortal(
+    <div ref={dialog} className="cp-lightbox" role="dialog" aria-modal="true" aria-label={`大图查看：${image.alt}`} onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <header className="cp-lightbox__header">
+        <p>{image.alt}</p>
+        <button ref={closeButton} type="button" onClick={onClose} aria-label="关闭大图" title="关闭"><X size={22} /></button>
+      </header>
+      <div className="cp-lightbox__stage" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+        <div className="cp-lightbox__canvas" style={{ width: `${zoom * 100}%`, maxWidth: `${zoom * 760}px` }}>
+          <img src={image.src} alt={image.alt} draggable={false} onDoubleClick={() => setZoom((value) => value === 1 ? 2 : 1)} />
+        </div>
+      </div>
+      <nav className="cp-lightbox__controls" aria-label="大图缩放">
+        <button type="button" onClick={() => setZoom((value) => Math.max(1, value - 0.5))} disabled={zoom === 1} aria-label="缩小" title="缩小"><ZoomOut size={21} /></button>
+        <button type="button" onClick={() => setZoom(1)} aria-label="适应屏幕" title="适应屏幕"><Scan size={20} /><span>{Math.round(zoom * 100)}%</span></button>
+        <button type="button" onClick={() => setZoom((value) => Math.min(3, value + 0.5))} disabled={zoom === 3} aria-label="放大" title="放大"><ZoomIn size={21} /></button>
+      </nav>
+    </div>,
+    document.body
+  );
+}
 
 const HERO_TITLES: Record<CoursePlanLineId, { main: string; accent: string }> = {
   python: { main: "科特班", accent: "英才计划" },
@@ -203,6 +262,11 @@ function AchievementPage({
                   key={poster.src}
                   style={{ "--stack-position": stackPosition } as CSSProperties}
                   aria-hidden={stackPosition !== 0}
+                  data-expandable-image={stackPosition === 0 ? "" : undefined}
+                  role={stackPosition === 0 ? "button" : undefined}
+                  tabIndex={stackPosition === 0 ? 0 : -1}
+                  aria-label={stackPosition === 0 ? `查看大图：${poster.alt}` : undefined}
+                  title={stackPosition === 0 ? "查看大图" : undefined}
                 >
                   <Image src={poster.src} alt={stackPosition === 0 ? poster.alt : ""} width={750} height={1333} sizes="(max-width: 519px) 286px, 286px" />
                 </figure>
@@ -259,6 +323,8 @@ function UniversityPlacementPage({ className }: { className: string }) {
               onClick={() => setActivePoster(index)}
               aria-label={`展示${poster.label}`}
               aria-pressed={activePoster === index}
+              data-expandable-image={activePoster === index ? "" : undefined}
+              title={activePoster === index ? "查看大图" : `展示${poster.label}`}
             >
               <Image src={poster.src} alt={poster.alt} width={poster.width} height={poster.height} sizes="260px" />
             </button>
@@ -328,7 +394,7 @@ function OutcomeStoryPage({ story, className }: { story: (typeof OUTCOME_STORIES
           </div>
         </Reveal>
       ) : (
-        <div className="cp-outcome-visual cp-motion-image" data-motion-image>
+        <div className="cp-outcome-visual cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${story.imageAlt}`} title="查看大图">
           <Image src={story.image} alt={story.imageAlt} width={story.imageWidth} height={story.imageHeight} sizes="(max-width: 519px) calc(100vw - 44px), 386px" />
         </div>
       )}
@@ -343,7 +409,9 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
   const [achievementTotal, setAchievementTotal] = useState(0);
   const [activeAchievementPoster, setActiveAchievementPoster] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [lightboxImage, setLightboxImage] = useState<LightboxImage | null>(null);
   const pagesRef = useRef<HTMLDivElement>(null);
+  const lightboxTriggerRef = useRef<HTMLElement | null>(null);
   const navigationStartedRef = useRef(false);
   const plan = useMemo(() => buildCoursePlanData(payload), [payload]);
   const courseLine = getCoursePlanLine(payload.courseLine);
@@ -356,6 +424,20 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
   const achievementPageIndex = showBrandPrelude ? -1 : 5;
   useCourseAnalytics(presentation?.id, currentPage === pageCount - 1, pagesRef);
   const isHybridDarkPage = showBrandPrelude && currentPage >= 1 && currentPage <= OUTCOME_STORIES.length + 2;
+  const closeLightbox = useCallback(() => {
+    setLightboxImage(null);
+    window.requestAnimationFrame(() => lightboxTriggerRef.current?.focus());
+  }, []);
+
+  function openMaterial(target: EventTarget | null) {
+    const element = target instanceof Element ? target.closest<HTMLElement>("[data-expandable-image]") : null;
+    if (!element || element.getAttribute("aria-hidden") === "true") return false;
+    const image = element.querySelector("img");
+    if (!image) return false;
+    lightboxTriggerRef.current = element;
+    setLightboxImage({ src: image.currentSrc || image.src, alt: image.alt || element.getAttribute("aria-label") || "课程物料" });
+    return true;
+  }
 
   useEffect(() => {
     if (!presentation) setPayload(readPayloadFromLocation());
@@ -459,7 +541,13 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
   }
 
   return (
-    <div className={`course-plan-page${variant !== "default" ? ` course-plan-page--${variant}` : ""}${variant === "hybrid" && currentPage === 0 ? " course-plan-page--hybrid-cover-active" : ""}${isHybridDarkPage ? " course-plan-page--hybrid-trust-active" : ""}`}>
+    <div
+      className={`course-plan-page${variant !== "default" ? ` course-plan-page--${variant}` : ""}${variant === "hybrid" && currentPage === 0 ? " course-plan-page--hybrid-cover-active" : ""}${isHybridDarkPage ? " course-plan-page--hybrid-trust-active" : ""}`}
+      onClick={(event) => { openMaterial(event.target); }}
+      onKeyDown={(event) => {
+        if ((event.key === "Enter" || event.key === " ") && openMaterial(event.target)) event.preventDefault();
+      }}
+    >
       <title>{pageTitle}</title>
       <main className="course-stage" id="top">
         <header className={`cp-topbar${currentPage === 0 ? " cp-topbar--cover" : ""}${isHybridDarkPage ? " cp-topbar--trust" : ""}`}>
@@ -517,7 +605,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               <h2><span>信任编程猫</span><em>源于专业共建</em></h2>
               <p>与北京大学共建人工智能教育联合实验室</p>
             </Reveal>
-            <div className="cp-prelude-visual cp-prelude-visual--trust cp-motion-image" data-motion-image>
+            <div className="cp-prelude-visual cp-prelude-visual--trust cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：北京大学与点猫科技人工智能教育联合实验室共建现场" title="查看大图">
               <Image
                 src="/images/course-plan/brand-trust-pku.png"
                 alt="北京大学与点猫科技人工智能教育联合实验室共建现场"
@@ -553,7 +641,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             <div><strong>千万</strong><span>家庭选择</span></div>
           </Reveal>
           {courseLine.id === "python" ? (
-            <div className="cp-class-detail cp-motion-image" data-motion-image>
+            <div className="cp-class-detail cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：科特班科技特长生人才培养计划" title="查看大图">
               <Image
                 className="cp-class-detail-image"
                 src="/images/course-plan/kete-class-detail.png"
@@ -583,7 +671,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             </Reveal>
           )}
           {useSharedMaterials ? (
-            <div className="cp-teacher-detail cp-motion-image" data-motion-image>
+            <div className="cp-teacher-detail cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：科特班师资团队" title="查看大图">
               <Image
                 className="cp-teacher-detail-image"
                 src="/images/course-plan/kete-teachers-ioi-experts.png"
@@ -617,7 +705,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               <h3><em>北大认证</em>好老师亲授</h3>
               <p>依托北大—点猫科技人工智能教育联合实验室，编程猫骨干教师完成北京大学组织的专项培训并获得结业认证。</p>
             </Reveal>
-            <div className="cp-master-teacher-visual cp-motion-image" data-motion-image>
+            <div className="cp-master-teacher-visual cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：北大认证上课老师" title="查看大图">
               <Image
                 src="/images/course-plan/master-teacher-pku-certification.png"
                 alt="编程猫老师完成北京大学骨干教师培训并获得官方结业证书"
@@ -645,7 +733,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             {courseLine.id === "python" ? <div><LibraryBig size={19} /><strong>全课程</strong><span>融合小学学科知识<br />侧面提升成绩</span></div> : null}
           </Reveal>}
           {useSharedMaterials ? (
-            <div className="cp-syllabus-detail cp-motion-image" data-motion-image>
+            <div className="cp-syllabus-detail cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${presentation?.syllabus.image.alt ?? "探月图形化科特班进阶课程大纲"}`} title="查看大图">
               <Image
                 className="cp-syllabus-detail-image"
                 src={presentation?.syllabus.image.src ?? "/images/course-plan/kete-syllabus-detail.png"}
@@ -681,7 +769,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             <Reveal className="cp-exam-goal-output" delay={200}>
               {presentation.goals.outputs.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
             </Reveal>
-            {presentation.goals.images.map((poster) => <div key={poster.src} className="cp-exam-goal-visual cp-motion-image" data-motion-image>
+            {presentation.goals.images.map((poster) => <div key={poster.src} className="cp-exam-goal-visual cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${poster.alt}`} title="查看大图">
               <Image
                 {...poster}
                 sizes="(max-width: 519px) calc(100vw - 44px), 386px"
@@ -702,7 +790,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             />
           </Reveal>
           {useSharedMaterials ? (
-            <div className="cp-tutoring-detail cp-motion-image" data-motion-image>
+            <div className="cp-tutoring-detail cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${presentation?.tutoringImage?.alt ?? "科特班教学服务"}`} title="查看大图">
               <Image
                 className="cp-tutoring-detail-image"
                 src={presentation?.tutoringImage?.src ?? "/images/course-plan/kete-tutoring-classroom-services.png"}
@@ -729,7 +817,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
           {showPageMascots ? <PageMascot src="/images/course-plan/codemao-schedule.png" pose="schedule" width={740} height={1008} /> : null}
           <Reveal><SectionHeading hideKicker index="07" label="SCHEDULE" title={`${heroTitle.main} 上课安排`} subtitle="固定学习节奏，灵活匹配孩子的时间与成长需要。" /></Reveal>
           {useSharedMaterials ? (
-            <div className="cp-schedule-detail cp-motion-image" data-motion-image>
+            <div className="cp-schedule-detail cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${presentation?.schedule.image.alt ?? "探月科特班学习时间安排表"}`} title="查看大图">
               <Image
                 className="cp-schedule-detail-image"
                 src={presentation?.schedule.image.src ?? "/images/course-plan/class-schedule.png"}
@@ -802,7 +890,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               <div><strong>2015<small>年</small></strong><span>编程猫成立</span></div>
               <div><strong>70000<small>+</small></strong><span>累计服务学校</span></div>
             </Reveal>
-            <div className="cp-closing-poster cp-motion-image" data-motion-image>
+            <div className="cp-closing-poster cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：编程猫权威合作机构" title="查看大图">
               <Image
                 src="/images/course-plan/codemao-authority-partners.webp"
                 alt="编程猫与北京大学共建人工智能教育联合实验室，并与联合国教科文组织、教育部教育技术与资源发展中心、IOI及中国计算机学会开展官方合作"
@@ -848,6 +936,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
           </nav>
         )}
       </main>
+      <MaterialLightbox image={lightboxImage} onClose={closeLightbox} />
     </div>
   );
 }

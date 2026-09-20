@@ -4149,6 +4149,114 @@ body:has(.course-plan-page--demo2) {
   .cp-rate > div i { transition: none; }
 }
 
+[data-expandable-image] { cursor: zoom-in; }
+[data-expandable-image]:focus-visible { outline: 3px solid #d8323f; outline-offset: 4px; }
+[data-expandable-image] img { -webkit-user-drag: none; }
+
+.cp-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  width: 100vw;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: rgb(10 11 14 / 96%);
+  color: #fff;
+  overscroll-behavior: contain;
+}
+
+.cp-lightbox__header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  gap: 18px;
+  padding: max(10px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  border-bottom: 1px solid rgb(255 255 255 / 13%);
+  background: rgb(17 18 22 / 94%);
+}
+
+.cp-lightbox__header p {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: rgb(255 255 255 / 82%);
+  font-size: 13px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-lightbox button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(255 255 255 / 18%);
+  background: rgb(255 255 255 / 9%);
+  color: #fff;
+  cursor: pointer;
+}
+
+.cp-lightbox button:hover { background: rgb(255 255 255 / 16%); }
+.cp-lightbox button:focus-visible { outline: 2px solid #ffcc52; outline-offset: 2px; }
+.cp-lightbox button:disabled { cursor: default; opacity: .35; }
+.cp-lightbox__header button { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; }
+
+.cp-lightbox__stage {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+  scrollbar-color: rgb(255 255 255 / 30%) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cp-lightbox__canvas {
+  margin: 0 auto;
+  transition: width 180ms ease, max-width 180ms ease;
+}
+
+.cp-lightbox__canvas img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 18px 70px rgb(0 0 0 / 45%);
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+.cp-lightbox__controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  border-top: 1px solid rgb(255 255 255 / 13%);
+  background: rgb(17 18 22 / 94%);
+}
+
+.cp-lightbox__controls button { min-width: 52px; height: 44px; border-radius: 6px; }
+.cp-lightbox__controls button:nth-child(2) { gap: 7px; min-width: 94px; }
+.cp-lightbox__controls span { font-size: 12px; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 520px) {
+  .cp-lightbox__stage { padding: 8px; }
+  .cp-lightbox__header p { font-size: 12px; }
+  .cp-lightbox__canvas img { border-radius: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-lightbox__canvas { transition: none; }
+}
+
 @media print {
   body,
   .course-plan-page { height: auto; overflow: visible; background: #fff !important; }
@@ -4159,6 +4267,7 @@ body:has(.course-plan-page--demo2) {
   .cp-footer button,
   .cp-cta,
   .cp-page-nav { display: none !important; }
+  .cp-lightbox { display: none !important; }
   .cp-page-mascot { opacity: 1 !important; filter: none !important; transform: none !important; }
   .cp-page-mascot img { animation: none !important; }
   .cp-reveal { opacity: 1 !important; transform: none !important; }
