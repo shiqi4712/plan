@@ -110,7 +110,7 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
       subtitle: "半年构建赛考竞争力，冲刺 3 项国家级成果",
       description: "用清晰的月度目标，把每一次学习沉淀为可认证、可展示的科技特长成果。",
       milestones: [{ month: "03", title: "NCT 一级", description: "完成编程基础能力认证" }, ...pythonMilestones.slice(1)],
-      outputs: [{ value: "50", label: "软件编程项目" }, { value: "6", label: "硬件实践项目" }, { value: "6课时", label: "白名单备赛直播" }],
+      outputs: [{ value: "44", label: "软件编程项目" }, { value: "6", label: "硬件实践项目" }, { value: "10课时", label: "白名单备赛直播" }],
       images: [{ src: "/images/course-plan/exam-goal-three-certificates.png", width: 852, height: 703, alt: "探月科特班半年赛考目标" }]
     },
     schedule: { image: { src: "/images/course-plan/class-schedule.png", width: 2620, height: 1417, alt: "探月科特班学习时间安排表" }, unlockTime: "19:00", liveTime: "18:40" }

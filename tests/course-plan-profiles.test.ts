@@ -40,6 +40,11 @@ test("moon and Python versions keep their own course materials and milestone dat
   const yingcai = COURSE_PLAN_PROFILES["yingcai-python"];
   assert.equal(moon.courseLine, "moon");
   assert.equal(moon.goals.milestones[0].month, "03");
+  assert.deepEqual(moon.goals.outputs, [
+    { value: "44", label: "软件编程项目" },
+    { value: "6", label: "硬件实践项目" },
+    { value: "10课时", label: "白名单备赛直播" }
+  ]);
   assert.equal(python.goals.milestones[0].month, "02");
   assert.equal(python.syllabus.stats[0].value, "42");
   assert.equal(yingcai.syllabus.stats[0].value, "50");
