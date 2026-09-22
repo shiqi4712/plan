@@ -54,3 +54,21 @@ test('tracking API validates origin, type, size, course and event identifiers', 
     assert.equal((await POST(request({ ...event, event: 'closing' }))).status, 204);
   } finally { delete process.env.ANALYTICS_DB_FILE; delete process.env.ANALYTICS_ORIGIN; rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('B-end visits are accepted and remain separate from matching parent-facing links', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'plan-b2b-'));
+  process.env.ANALYTICS_DB_FILE = join(dir, 'b2b.sqlite');
+  const visitor = randomUUID();
+  const date = new Date('2026-09-22T04:00:00Z');
+  const base = { event: 'visit' as const, visitor };
+  try {
+    recordEvent({ ...base, course: 'kete-moon', visit: randomUUID() }, date);
+    recordEvent({ ...base, course: 'b-kete-moon', visit: randomUUID() }, date);
+    const filter = { start: '2026-09-22', end: '2026-09-22' };
+    assert.equal(getLiveAnalytics({ ...filter, course: 'kete-moon' }).totals.pv, 1);
+    assert.equal(getLiveAnalytics({ ...filter, course: 'b-kete-moon' }).totals.pv, 1);
+    const all = getLiveAnalytics({ ...filter, course: 'all' });
+    assert.deepEqual(all.totals, { pv: 2, uv: 1, closing: 0, rate: 0 });
+    assert.equal(all.rows.length, 8);
+  } finally { delete process.env.ANALYTICS_DB_FILE; rmSync(dir, { recursive: true, force: true }); }
+});

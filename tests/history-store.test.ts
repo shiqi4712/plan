@@ -17,6 +17,7 @@ test('historical deletion is scoped, persistent and does not erase the source sn
     assert.deepEqual(getHistory()?.records, records.slice(1));
     assert.equal(deleteHistory('2026-09-11','2026-09-11','kete-moon'), 0);
     assert.throws(()=>deleteHistory('2026-09-11','2026-09-11','invalid'));
+    assert.throws(()=>deleteHistory('2026-09-11','2026-09-11','b-kete-moon'));
     assert.throws(()=>deleteHistory('2026-09-12','2026-09-11','all'));
   } finally {
     if (previous === undefined) delete process.env.ANALYTICS_HISTORY_FILE;

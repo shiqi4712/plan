@@ -6,10 +6,33 @@ import { COURSE_PLAN_PROFILES, getCoursePlanProfile } from "../lib/course-plan-p
 
 test("public course links are a fixed whitelist, including safe handling of prototype keys", () => {
   assert.deepEqual(Object.keys(COURSE_PLAN_PROFILES).sort(), [
-    "kete-moon", "kete-python", "yingcai-python", "yucai-preschool", "yucai-rocket"
+    "b-kete-moon", "b-kete-python", "b-yucai-rocket", "kete-moon", "kete-python",
+    "yingcai-python", "yucai-preschool", "yucai-rocket"
   ]);
   for (const id of ["unknown", "constructor", "__proto__", "toString"]) {
     assert.equal(getCoursePlanProfile(id), undefined);
+  }
+});
+
+test("B-end links start as independent deep copies of their source profiles", () => {
+  const pairs = [
+    ["b-yucai-rocket", "yucai-rocket"],
+    ["b-kete-moon", "kete-moon"],
+    ["b-kete-python", "kete-python"]
+  ] as const;
+  for (const [businessId, sourceId] of pairs) {
+    const business = COURSE_PLAN_PROFILES[businessId];
+    const source = COURSE_PLAN_PROFILES[sourceId];
+    assert.equal(business.id, businessId);
+    assert.ok(business.name.startsWith("B端·"));
+    assert.deepEqual({ ...business, id: source.id, name: source.name }, source);
+    assert.notEqual(business.syllabus, source.syllabus);
+    assert.notEqual(business.syllabus.stats, source.syllabus.stats);
+    assert.notEqual(business.goals, source.goals);
+    assert.notEqual(business.goals.milestones, source.goals.milestones);
+    assert.notEqual(business.goals.outputs, source.goals.outputs);
+    assert.notEqual(business.goals.images, source.goals.images);
+    assert.notEqual(business.schedule, source.schedule);
   }
 });
 

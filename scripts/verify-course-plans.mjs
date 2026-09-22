@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 
 const origin = new URL(process.argv[2] ?? "http://127.0.0.1:3100");
-const profiles = ["yucai-rocket", "yucai-preschool", "kete-moon", "kete-python", "yingcai-python"];
+const profileClasses = {
+  "yucai-rocket": "育才班", "yucai-preschool": "英才班", "kete-moon": "科特班",
+  "kete-python": "科特班", "yingcai-python": "英才班", "b-yucai-rocket": "育才班",
+  "b-kete-moon": "科特班", "b-kete-python": "科特班"
+};
+const profiles = Object.keys(profileClasses);
 const checkedAssets = new Set();
 for (const profile of profiles) {
   const response = await fetch(new URL(`/course-plan/${profile}`, origin), { signal: AbortSignal.timeout(30000) });
@@ -11,8 +16,8 @@ for (const profile of profiles) {
   assert.equal((html.match(/<section\b/g) ?? []).length, 13, `${profile}: expected 13 pages`);
   assert.ok(html.includes("奠定少儿编程领域第一") && html.includes("codemao-authority-partners.webp"), `${profile}: latest closing copy and poster`);
   assert.ok(!html.includes("MONTHS"), `${profile}: Chinese month labels`);
-  assert.ok(html.includes(profile.startsWith("yucai") ? 'aria-label="学习目标"' : 'aria-label="赛考目标"'));
-  const className = profile === "yucai-rocket" ? "育才班" : profile === "yucai-preschool" || profile === "yingcai-python" ? "英才班" : "科特班";
+  assert.ok(html.includes(profile.endsWith("yucai-rocket") || profile === "yucai-preschool" ? 'aria-label="学习目标"' : 'aria-label="赛考目标"'));
+  const className = profileClasses[profile];
   const outcomes = ["科技特长生——保送名校", `${className}学生学习成果—科特生`, `${className}学生学习成果—信奥金牌`, `${className}学生学习成果—助力升学`];
   const positions = outcomes.map(label => html.indexOf(`aria-label="${label}"`));
   assert.ok(positions.every((position, index) => position >= 0 && (index === 0 || position > positions[index - 1])), `${profile}: outcome order and class names`);

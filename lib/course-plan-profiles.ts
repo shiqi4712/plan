@@ -51,7 +51,7 @@ const rocketSchedule = {
   unlockTime: "19:15", liveTime: "19:00"
 };
 
-export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
+const CONSUMER_COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
   "yucai-rocket": {
     id: "yucai-rocket", name: "育才班·火箭", className: "育才班", courseLine: "rocket",
     tutoringImage: material("yucai-rocket", "yucai-services", 418, 791, "编程猫育才班教学服务：开学典礼、开课提醒、课前真人直播、课中监测与答疑、学情反馈、课后练习和阶段测评"),
@@ -143,6 +143,36 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
     },
     schedule: { image: material("yingcai-python", "schedule", 1600, 920, "Python英才班主课学习时间安排表"), unlockTime: "19:20", liveTime: "19:00" }
   }
+};
+
+export const CONSUMER_PROFILE_IDS = [
+  "yucai-rocket", "yucai-preschool", "kete-moon", "kete-python", "yingcai-python"
+] as const;
+
+export const B2B_PROFILE_IDS = ["b-yucai-rocket", "b-kete-moon", "b-kete-python"] as const;
+
+function cloneProfile(source: CoursePlanProfile, id: string, name: string): CoursePlanProfile {
+  return {
+    ...source,
+    id,
+    name,
+    ...(source.tutoringImage ? { tutoringImage: { ...source.tutoringImage } } : {}),
+    syllabus: { ...source.syllabus, stats: source.syllabus.stats.map((stat) => ({ ...stat })), image: { ...source.syllabus.image } },
+    goals: {
+      ...source.goals,
+      milestones: source.goals.milestones.map((milestone) => ({ ...milestone })),
+      outputs: source.goals.outputs.map((output) => ({ ...output })),
+      images: source.goals.images.map((image) => ({ ...image }))
+    },
+    schedule: { ...source.schedule, image: { ...source.schedule.image } }
+  };
+}
+
+export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
+  ...CONSUMER_COURSE_PLAN_PROFILES,
+  "b-yucai-rocket": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yucai-rocket"], "b-yucai-rocket", "B端·育才班·火箭"),
+  "b-kete-moon": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-moon"], "b-kete-moon", "B端·科特班·探月"),
+  "b-kete-python": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-python"], "b-kete-python", "B端·科特班·Python")
 };
 
 export function getCoursePlanProfile(id: string): CoursePlanProfile | undefined {

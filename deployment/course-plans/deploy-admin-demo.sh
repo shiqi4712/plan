@@ -100,6 +100,12 @@ from pathlib import Path
 import sys
 path = Path(sys.argv[1])
 text = path.read_text()
+route_prefix = '    location ~ ^/course-plan/('
+routes = [line for line in text.splitlines() if line.startswith(route_prefix)]
+if len(routes) != 1:
+    raise SystemExit('Unexpected course route configuration')
+published = '    location ~ ^/course-plan/(yucai-rocket|yucai-preschool|kete-moon|kete-python|yingcai-python|b-yucai-rocket|b-kete-moon|b-kete-python)/?$ {'
+text = text.replace(routes[0], published)
 marker = '    # Course admin demo routes.'
 if marker not in text:
     anchor = '    location ^~ /_next/ {'
@@ -116,7 +122,8 @@ if marker not in text:
     }
 
 '''
-    path.write_text(text.replace(anchor, block + anchor))
+    text = text.replace(anchor, block + anchor)
+path.write_text(text)
 PY
 nginx -t
 systemctl stop "$preview"

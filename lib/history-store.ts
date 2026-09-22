@@ -1,6 +1,8 @@
 import { readFileSync, writeFileSync, renameSync, existsSync } from 'node:fs';
 import type { HistoryData } from './history-types';
-import { COURSE_PLAN_PROFILES } from './course-plan-profiles';
+import { CONSUMER_PROFILE_IDS } from './course-plan-profiles';
+
+const consumerProfiles = new Set<string>(CONSUMER_PROFILE_IDS);
 
 export function getHistory(): HistoryData | null {
   const filename = process.env.ANALYTICS_HISTORY_FILE;
@@ -14,7 +16,7 @@ export function getHistory(): HistoryData | null {
 export function deleteHistory(start: string, end: string, course: string) {
   const filename = process.env.ANALYTICS_HISTORY_FILE;
   if (!filename) throw new Error('History is not configured');
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end) || start > end || (course !== 'all' && !Object.hasOwn(COURSE_PLAN_PROFILES, course))) throw new Error('Invalid filter');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end) || start > end || (course !== 'all' && !consumerProfiles.has(course))) throw new Error('Invalid filter');
   const data = JSON.parse(readFileSync(filename, 'utf8')) as HistoryData;
   const removed = new Set<number>(existsSync(filename + '.deleted') ? JSON.parse(readFileSync(filename + '.deleted', 'utf8')) : []);
   const before = removed.size;

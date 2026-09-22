@@ -2,11 +2,11 @@
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowDownToLine, ChartNoAxesCombined, Info, Trash2, ExternalLink, Eye, Users, Flag } from 'lucide-react';
-import { COURSE_PLAN_PROFILES } from '@/lib/course-plan-profiles';
+import { CONSUMER_PROFILE_IDS, COURSE_PLAN_PROFILES } from '@/lib/course-plan-profiles';
 import type { HistoryData, HistoryRecord } from '@/lib/history-types';
 import { logoutAdmin, deleteHistoricalData } from '@/app/admin/actions';
 
-const courses = Object.values(COURSE_PLAN_PROFILES);
+const courses = CONSUMER_PROFILE_IDS.map(id => COURSE_PLAN_PROFILES[id]);
 const count = (records: HistoryRecord[]) => ({pv: records.length, uv: new Set(records.map(r => r.visitor)).size});
 export default function HistoryAnalytics({data}: {data: HistoryData}) {
   const [start, setStart] = useState(data.start);

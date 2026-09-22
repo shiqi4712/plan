@@ -1,6 +1,6 @@
-# 编程猫五课线培养方案
+# 编程猫课线培养方案
 
-已上线的独立 Next.js 展示项目。五条课线共用页面、动效与翻页交互，分别配置首页班名、课程大纲、学习/赛考目标和上课安排。
+独立 Next.js 展示项目。5 条家长端链接和 3 条 B 端链接共用页面、动效与翻页交互，分别配置首页班名、课程大纲、学习/赛考目标和上课安排。B 端初始内容复制自对应家长端，配置相互独立，便于后续单独更换物料。
 
 | 课线 | 正式链接 |
 | --- | --- |
@@ -9,6 +9,12 @@
 | 科特班·探月 | https://plan.bcmty.cn/course-plan/kete-moon |
 | 科特班·Python | https://plan.bcmty.cn/course-plan/kete-python |
 | 英才班·Python | https://plan.bcmty.cn/course-plan/yingcai-python |
+
+| B 端版本 | 正式链接 |
+| --- | --- |
+| B端·育才班·火箭 | https://plan.bcmty.cn/course-plan/b-yucai-rocket |
+| B端·科特班·探月 | https://plan.bcmty.cn/course-plan/b-kete-moon |
+| B端·科特班·Python | https://plan.bcmty.cn/course-plan/b-kete-python |
 
 每条课线13页。火箭育才班及幼儿英才班使用“学习目标”，幼儿版保留两张目标海报，使用每周五18:00解锁的独立时间表。幼儿版保留原有 `yucai-preschool` 路径，兼容已发送链接；两版分别配置教学服务海报。根路径 `/` 返回404，请使用完整课线链接。项目提供管理员登录及历史访问后台，不提供家长查询；管理员凭据通过环境配置保存。
 
@@ -30,11 +36,11 @@ npm run build
 npm start -- --hostname 127.0.0.1 --port 3100
 ```
 
-生产服务启动后，可执行 `node scripts/verify-course-plans.mjs http://127.0.0.1:3100` 检查五条课线及物料。Google Fonts 不可达时自动回退到本机中文字体。
+生产服务启动后，可执行 `node scripts/verify-course-plans.mjs http://127.0.0.1:3100` 检查 8 条链接及物料。Google Fonts 不可达时自动回退到本机中文字体。
 
 ## 内容维护
 
-- `lib/course-plan-profiles.ts`：五条课线配置与物料路径。
+- `lib/course-plan-profiles.ts`：5 条家长端及 3 条 B 端配置与物料路径。
 - `components/CoursePlanViewer.tsx`：共享页面、交互与文案。
 - `app/course-plan/course-plan.css`：布局和动效。
 - `public/images/course-plan/`：本地化物料。
@@ -51,7 +57,7 @@ npm start -- --hostname 127.0.0.1 --port 3100
 
 ## 部署
 
-运营后台入口为 `/admin/login`。五条课线自动采集访问量、匿名浏览器 UV 和末页查阅，后台支持每 30 秒刷新、筛选、导出及删除。SQLite 文件保存在版本目录外，重启和更新保留数据。历史日志通过 `ANALYTICS_HISTORY_FILE` 单独查看，不混入自动统计；历史末页无法恢复。详见 [自动统计与部署](docs/automatic-analytics.md) 和 [历史数据说明](docs/historical-analytics.md)。使用 `deployment/course-plans/deploy-live-analytics.sh` 更新服务器，沿用管理员凭据与历史数据；账号密码环境配置不提交 Git。
+运营后台入口为 `/admin/login`。8 条链接分别自动采集访问量、匿名浏览器 UV 和末页查阅，后台按家长端和 B 端分组筛选，支持每 30 秒刷新、导出及删除。SQLite 文件保存在版本目录外，重启和更新保留数据。历史日志仅包含原有 5 条家长端链接，通过 `ANALYTICS_HISTORY_FILE` 单独查看，不混入自动统计；历史末页无法恢复。详见 [自动统计与部署](docs/automatic-analytics.md) 和 [历史数据说明](docs/historical-analytics.md)。使用 `deployment/course-plans/deploy-live-analytics.sh` 更新服务器，沿用管理员凭据与历史数据；账号密码环境配置不提交 Git。
 
 Ubuntu 使用独立用户 `courseplan`、服务 `course-plans` 和内部端口3100，Nginx 仅为 `plan.bcmty.cn` 转发。HTTPS 证书通过 Certbot 自动续期。
 
