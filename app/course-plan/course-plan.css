@@ -585,9 +585,79 @@ body:has(.course-plan-page) {
   position: relative;
 }
 
+.cp-b2b-intro .cp-section-heading {
+  margin-bottom: 16px;
+}
+
+.cp-b2b-intro-copy {
+  padding: 16px 17px;
+  border-left: 4px solid var(--cp-blue);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.cp-b2b-intro-copy small {
+  color: var(--cp-coral);
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.cp-b2b-intro-copy h3 {
+  margin: 7px 0 8px;
+  color: var(--cp-ink);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.cp-b2b-intro-copy p {
+  margin: 0;
+  color: var(--cp-ink-2);
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.cp-b2b-intro-pillars {
+  display: grid;
+  margin-top: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cp-b2b-intro-pillars > div {
+  position: relative;
+  min-height: 82px;
+  padding: 12px 10px 10px 38px;
+  border: 1px solid rgba(183, 25, 34, 0.1);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.cp-b2b-intro-pillars span {
+  position: absolute;
+  top: 11px;
+  left: 10px;
+  color: var(--cp-coral);
+  font-family: "Sora", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.cp-b2b-intro-pillars strong {
+  display: block;
+  color: var(--cp-ink);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.cp-b2b-intro-pillars p {
+  margin: 5px 0 0;
+  color: var(--cp-ink-2);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
 .cp-b2b-intro-visual {
-  width: min(100%, 340px);
-  margin: 18px auto 0;
+  width: min(100%, 320px);
+  margin: 16px auto 0;
   overflow: hidden;
   border: 1px solid rgba(183, 25, 34, 0.12);
   border-radius: 8px;

@@ -8,6 +8,14 @@ const profileClasses = {
   "b-yingcai-moon": "英才班", "b-yingcai-python": "英才班"
 };
 const profiles = Object.keys(profileClasses);
+const b2bIntroNames = {
+  "b-yucai-rocket": "育才班 · 小火箭",
+  "b-kete-moon": "科特班 · 探月",
+  "b-kete-python": "科特班 · Python",
+  "b-yingcai-rocket": "英才班 · 小火箭",
+  "b-yingcai-moon": "英才班 · 探月",
+  "b-yingcai-python": "英才班 · Python"
+};
 const learningProfiles = new Set(["yucai-rocket", "yucai-preschool", "b-yucai-rocket", "b-yingcai-rocket"]);
 const checkedAssets = new Set();
 for (const profile of profiles) {
@@ -29,6 +37,8 @@ for (const profile of profiles) {
   if (profile.startsWith("b-")) {
     assert.ok(html.includes('cp-pages cp-pages--b2b') && html.includes(`aria-label="${className}班型介绍"`));
     assert.ok(!html.includes('aria-label="专业教研"') && html.includes('aria-label="上课老师"'));
+    assert.ok(renderedText.includes("专业教研支撑 · 体系实力升级") && renderedText.includes("专项能力测评择优入班"));
+    assert.ok(renderedText.includes(b2bIntroNames[profile]), `${profile}: course-specific class introduction`);
   } else {
     assert.ok(html.includes('aria-label="专业教研"') && html.includes('aria-label="上课老师"'));
   }

@@ -108,6 +108,27 @@ const ADMISSION_COMPARISON = [
   { stage: "重点大学", exam: 2, tech: 69 }
 ] as const;
 
+const B2B_INTRO_PILLARS = [
+  ["名校学术支持", "联合共研课程与学术体系"],
+  ["精品教研体系", "聚焦编程能力系统进阶"],
+  ["赛事专业指导", "权威专家提供专业指导"],
+  ["教研成果认可", "教学成果获多地教育领域认可"]
+] as const;
+
+function getB2BIntroHeadline(profile: CoursePlanProfile): string {
+  if (profile.className === "育才班") return "专业启蒙，夯实编程思维与科创基础";
+  if (profile.className === "科特班" && profile.courseLine === "moon") return "图形化编程进阶，定制科技特长成长路径";
+  if (profile.className === "科特班") return "Python 能力进阶，定制科技特长成长路径";
+  if (profile.courseLine === "rocket") return "系统培养编程思维，开启科创成长路径";
+  if (profile.courseLine === "moon") return "图形化能力进阶，衔接考级与赛事成果";
+  return "Python 能力进阶，衔接考级与国家级赛事";
+}
+
+function getB2BIntroName(profile: CoursePlanProfile): string {
+  const courseName = profile.courseLine === "rocket" ? "小火箭" : profile.courseLine === "moon" ? "探月" : "Python";
+  return `${profile.className} · ${courseName}`;
+}
+
 type LightboxImage = { src: string; alt: string };
 
 function MaterialLightbox({ image, onClose }: { image: LightboxImage | null; onClose: () => void }) {
@@ -603,7 +624,17 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
         {isB2B && presentation?.introImage ? (
           <section className="cp-page cp-section cp-section--tint cp-b2b-intro" aria-label={`${presentation.className}班型介绍`}>
             <Reveal>
-              <SectionHeading hideKicker index="02" label="CLASS PROFILE" title="班型介绍" subtitle={`${presentation.className} · 科技特长生专属人才培养计划`} />
+              <SectionHeading hideKicker index="02" label="CLASS PROFILE" title="班型介绍" subtitle={`${getB2BIntroName(presentation)} · 科技特长生专属人才培养计划`} />
+            </Reveal>
+            <Reveal className="cp-b2b-intro-copy" delay={70}>
+              <small>专业教研支撑 · 体系实力升级</small>
+              <h3>{getB2BIntroHeadline(presentation)}</h3>
+              <p>依托北大—点猫科技人工智能教育联合实验室共研人才培养体系，面向具备逻辑思维与探索兴趣的孩子，通过专项能力测评择优入班，规划长期科创能力成长路径。</p>
+            </Reveal>
+            <Reveal className="cp-b2b-intro-pillars" delay={120}>
+              {B2B_INTRO_PILLARS.map(([title, description], index) => (
+                <div key={title}><span>{String(index + 1).padStart(2, "0")}</span><strong>{title}</strong><p>{description}</p></div>
+              ))}
             </Reveal>
             <div className="cp-b2b-intro-visual cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${presentation.introImage.alt}`} title="查看大图">
               <Image {...presentation.introImage} sizes="(max-width: 519px) calc(100vw - 44px), 386px" />
