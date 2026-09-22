@@ -104,7 +104,7 @@ route_prefix = '    location ~ ^/course-plan/('
 routes = [line for line in text.splitlines() if line.startswith(route_prefix)]
 if len(routes) != 1:
     raise SystemExit('Unexpected course route configuration')
-published = '    location ~ ^/course-plan/(yucai-rocket|yucai-preschool|kete-moon|kete-python|yingcai-python|b-yucai-rocket|b-kete-moon|b-kete-python)/?$ {'
+published = '    location ~ ^/course-plan/(yucai-rocket|yucai-preschool|kete-moon|kete-python|yingcai-python|b-yucai-rocket|b-kete-moon|b-kete-python|b-yingcai-rocket|b-yingcai-moon|b-yingcai-python)/?$ {'
 text = text.replace(routes[0], published)
 marker = '    # Course admin demo routes.'
 if marker not in text:

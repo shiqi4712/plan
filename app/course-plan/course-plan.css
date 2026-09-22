@@ -177,6 +177,20 @@ body:has(.course-plan-page) {
   display: none;
 }
 
+.cp-pages--b2b > .cp-cover { order: 1; }
+.cp-pages--b2b > .cp-b2b-intro { order: 2; }
+.cp-pages--b2b > .cp-master-teacher { order: 3; }
+.cp-pages--b2b > .cp-tutoring-page { order: 4; }
+.cp-pages--b2b > .cp-schedule-page { order: 5; }
+.cp-pages--b2b > .cp-syllabus-page { order: 6; }
+.cp-pages--b2b > .cp-exam-goal { order: 7; }
+.cp-pages--b2b > .cp-brand-prelude--trust { order: 8; }
+.cp-pages--b2b > .cp-outcome-story--tech-talent { order: 9; }
+.cp-pages--b2b > .cp-outcome-story--gold { order: 10; }
+.cp-pages--b2b > .cp-outcome-story--admission { order: 11; }
+.cp-pages--b2b > .cp-outcome-story--placement { order: 12; }
+.cp-pages--b2b > .cp-brand-closing { order: 13; }
+
 .cp-page {
   width: 100%;
   min-width: 100%;
@@ -565,6 +579,27 @@ body:has(.course-plan-page) {
 
 .cp-class-page {
   padding-top: 40px;
+}
+
+.cp-b2b-intro {
+  position: relative;
+}
+
+.cp-b2b-intro-visual {
+  width: min(100%, 340px);
+  margin: 18px auto 0;
+  overflow: hidden;
+  border: 1px solid rgba(183, 25, 34, 0.12);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--cp-shadow-lg);
+  cursor: zoom-in;
+}
+
+.cp-b2b-intro-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .cp-section-heading {

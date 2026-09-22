@@ -34,6 +34,7 @@ for (const relative of sources) {
 await fs.copyFile(path.join(root, "deployment/course-plans/app-layout.tsx"), path.join(stage, "app/layout.tsx"));
 await fs.cp(path.join(root, "deployment/course-plans"), path.join(stage, "deployment/course-plans"), { recursive: true });
 await fs.copyFile(path.join(root, "scripts/import-course-materials.mjs"), path.join(stage, "scripts/import-course-materials.mjs"));
+await fs.copyFile(path.join(root, "scripts/import-b2b-materials.mjs"), path.join(stage, "scripts/import-b2b-materials.mjs"));
 await fs.copyFile(path.join(root, "scripts/package-course-plans.mjs"), path.join(stage, "scripts/package-course-plans.mjs"));
 await fs.copyFile(path.join(root, "README.md"), path.join(stage, "README.md"));
 await fs.cp(path.join(root, "public/images/course-plan"), path.join(stage, "public/images/course-plan"), { recursive: true });

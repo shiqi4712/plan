@@ -69,6 +69,6 @@ test('B-end visits are accepted and remain separate from matching parent-facing 
     assert.equal(getLiveAnalytics({ ...filter, course: 'b-kete-moon' }).totals.pv, 1);
     const all = getLiveAnalytics({ ...filter, course: 'all' });
     assert.deepEqual(all.totals, { pv: 2, uv: 1, closing: 0, rate: 0 });
-    assert.equal(all.rows.length, 8);
+    assert.equal(all.rows.length, 11);
   } finally { delete process.env.ANALYTICS_DB_FILE; rmSync(dir, { recursive: true, force: true }); }
 });

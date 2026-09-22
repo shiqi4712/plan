@@ -402,8 +402,18 @@ function OutcomeStoryPage({ story, className }: { story: (typeof OUTCOME_STORIES
   );
 }
 
+function getVisualPages(container: HTMLDivElement, ordered: boolean): HTMLElement[] {
+  const pages = Array.from(container.children) as HTMLElement[];
+  if (!ordered) return pages;
+  return pages
+    .map((page, index) => ({ page, index, order: Number.parseInt(window.getComputedStyle(page).order, 10) || 0 }))
+    .sort((a, b) => a.order - b.order || a.index - b.index)
+    .map(({ page }) => page);
+}
+
 export function CoursePlanViewer({ variant = "default", profile }: { variant?: "default" | "demo2" | "hybrid"; profile?: CoursePlanProfile }) {
   const presentation = variant === "hybrid" ? profile ?? COURSE_PLAN_PROFILES["kete-moon"] : undefined;
+  const isB2B = presentation?.isB2B === true;
   const [payload, setPayload] = useState<CoursePlanPayload>({ student: "学生", courseLine: "moon" });
   const [acknowledged, setAcknowledged] = useState(false);
   const [achievementTotal, setAchievementTotal] = useState(0);
@@ -423,7 +433,9 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
   const pageCount = BASE_PAGE_COUNT + (showBrandPrelude ? HYBRID_ADDITIONAL_PAGE_COUNT : 0);
   const achievementPageIndex = showBrandPrelude ? -1 : 5;
   useCourseAnalytics(presentation?.id, currentPage === pageCount - 1, pagesRef);
-  const isHybridDarkPage = showBrandPrelude && currentPage >= 1 && currentPage <= OUTCOME_STORIES.length + 2;
+  const isHybridDarkPage = showBrandPrelude && (isB2B
+    ? currentPage >= 7 && currentPage <= 11
+    : currentPage >= 1 && currentPage <= OUTCOME_STORIES.length + 2);
   const closeLightbox = useCallback(() => {
     setLightboxImage(null);
     window.requestAnimationFrame(() => lightboxTriggerRef.current?.focus());
@@ -469,7 +481,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
 
   useEffect(() => {
     const pages = pagesRef.current;
-    const activePage = pages?.children.item(currentPage) as HTMLElement | null;
+    const activePage = pages ? getVisualPages(pages, isB2B)[currentPage] : null;
     if (!activePage) return;
 
     const animatedElements = Array.from(activePage.querySelectorAll<HTMLElement>("[data-reveal], [data-motion-image], [data-motion-mascot]"));
@@ -500,7 +512,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
       revealObserver?.disconnect();
       animatedElements.forEach((element) => element.classList.remove("is-resetting"));
     };
-  }, [currentPage]);
+  }, [currentPage, isB2B]);
 
   useEffect(() => {
     if (currentPage !== achievementPageIndex) return;
@@ -535,7 +547,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
     if (!pages) return;
     navigationStartedRef.current = true;
     const nextPage = Math.max(0, Math.min(pageCount - 1, pageIndex));
-    const targetPage = pages.children.item(nextPage) as HTMLElement | null;
+    const targetPage = getVisualPages(pages, isB2B)[nextPage] ?? null;
     if (targetPage) targetPage.scrollTop = 0;
     pages.scrollTo({ left: nextPage * pages.clientWidth, behavior: "smooth" });
   }
@@ -564,7 +576,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
         </header>
 
         <div
-          className="cp-pages"
+          className={`cp-pages${isB2B ? " cp-pages--b2b" : ""}`}
           ref={pagesRef}
           onScroll={(event) => {
             const pageWidth = event.currentTarget.clientWidth;
@@ -587,6 +599,17 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             </button>
           ) : null}
         </section>
+
+        {isB2B && presentation?.introImage ? (
+          <section className="cp-page cp-section cp-section--tint cp-b2b-intro" aria-label={`${presentation.className}班型介绍`}>
+            <Reveal>
+              <SectionHeading hideKicker index="02" label="CLASS PROFILE" title="班型介绍" subtitle={`${presentation.className} · 科技特长生专属人才培养计划`} />
+            </Reveal>
+            <div className="cp-b2b-intro-visual cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${presentation.introImage.alt}`} title="查看大图">
+              <Image {...presentation.introImage} sizes="(max-width: 519px) calc(100vw - 44px), 386px" />
+            </div>
+          </section>
+        ) : null}
 
         {showBrandPrelude ? (
           <>
@@ -655,7 +678,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
           </section>
         )}
 
-        <section className={`cp-page cp-section${showPageMascots ? " cp-section--mascot" : ""}`} aria-label="专业教研">
+        {isB2B ? null : <section className={`cp-page cp-section${showPageMascots ? " cp-section--mascot" : ""}`} aria-label="专业教研">
           {showPageMascots ? <PageMascot src="/images/course-plan/codemao-teacher.png" pose="teacher" width={685} height={1050} /> : null}
           <Reveal><SectionHeading hideKicker index="03" label="TEACHERS" title="专业教研" subtitle={useSharedMaterials ? "北大认证专业教研，全公司筛选金牌老师辅导" : "用清晰标准筛选老师，让孩子获得稳定、专业的长期陪伴。"} /></Reveal>
           {useSharedMaterials ? (
@@ -692,7 +715,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               </dl>
             </Reveal>
           ) : null}
-        </section>
+        </section>}
 
         {showBrandPrelude ? (
           <section className="cp-page cp-section cp-section--tint cp-section--mascot cp-master-teacher" aria-label="上课老师">
@@ -778,7 +801,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
           </section>
         ) : null}
 
-        <section className={`cp-page cp-section${showPageMascots ? " cp-section--mascot" : ""}`} aria-label={`${heroTitle.main} 上课模式`}>
+        <section className={`cp-page cp-section cp-tutoring-page${showPageMascots ? " cp-section--mascot" : ""}`} aria-label={`${heroTitle.main} 上课模式`}>
           {showPageMascots ? <PageMascot src="/images/course-plan/codemao-tutoring.png" pose="tutoring" width={746} height={1042} /> : null}
           <Reveal>
             <SectionHeading

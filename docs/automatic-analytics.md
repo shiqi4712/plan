@@ -1,6 +1,6 @@
 # 自动访问统计
 
-5 个家长端和 3 个 B 端正式链接自动上报访问与末页查阅；后台 `/admin/analytics` 默认显示今天，支持日期、链接筛选、CSV 导出和每 30 秒刷新。两端使用不同 course ID，数据分别统计。后台登录、静态资源请求及 Next.js 预加载不增加访问量。
+5 个家长端和 6 个 B 端正式链接自动上报访问与末页查阅；后台 `/admin/analytics` 默认显示今天，支持日期、链接筛选、CSV 导出和每 30 秒刷新。两端使用不同 course ID，数据分别统计。后台登录、静态资源请求及 Next.js 预加载不增加访问量。
 
 ## 统计口径
 
@@ -25,7 +25,7 @@ ANALYTICS_HISTORY_FILE=/srv/course-plans/data/history-20260918.json
 
 本地未配置数据库路径时使用 `.data/analytics.sqlite`，已加入 Git 忽略。线上数据库位于版本目录外，重启、切换版本不会清空；历史配置和管理员凭据沿用已有环境文件。
 
-`POST /api/analytics/track` 只接受同源 JSON、固定 8 条链接、合法 UUID 及 visit/closing 事件。请求体最多 1KB，按来源 IP 做短时内存限流（不持久保存 IP）。统计查询与删除通过管理员鉴权的 Server Actions 执行，不公开数据读取接口。
+`POST /api/analytics/track` 只接受同源 JSON、固定 11 条链接、合法 UUID 及 visit/closing 事件。请求体最多 1KB，按来源 IP 做短时内存限流（不持久保存 IP）。统计查询与删除通过管理员鉴权的 Server Actions 执行，不公开数据读取接口。
 
 SQLite 使用 WAL；备份运行中的数据库应使用 SQLite backup API，不能只复制主文件而遗漏未 checkpoint 的 WAL。部署回滚保留数据库，后续恢复自动统计后继续使用。
 
@@ -37,6 +37,6 @@ SQLite 使用 WAL；备份运行中的数据库应使用 SQLite backup API，不
 bash deployment/course-plans/deploy-live-analytics.sh
 ```
 
-脚本保留管理员凭据、现有自动统计数据库和历史配置，在独立版本目录以 courseplan 用户限资源构建，使用独立预览数据库验证 8 条链接，然后原子切换 current，只重启 course-plans。仅更新 plan.bcmty.cn 的路由与采集接口，`nginx -t` 后平滑 reload，不重启 Nginx 或其他应用。失败自动恢复旧版本和该站点配置。
+脚本保留管理员凭据、现有自动统计数据库和历史配置，在独立版本目录以 courseplan 用户限资源构建，使用独立预览数据库验证 11 条链接，然后原子切换 current，只重启 course-plans。仅更新 plan.bcmty.cn 的路由与采集接口，`nginx -t` 后平滑 reload，不重启 Nginx 或其他应用。失败自动恢复旧版本和该站点配置。
 
 也支持使用本地 Git 源码归档：`bash deploy-live-analytics.sh /absolute/source.tar 完整提交SHA`。不上传 Windows 的 node_modules 或 .next。
