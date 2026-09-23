@@ -39,6 +39,8 @@ for (const profile of profiles) {
     assert.ok(!html.includes('aria-label="专业教研"') && html.includes('aria-label="上课老师"'));
     assert.ok(renderedText.includes("专业教研支撑 · 体系实力升级") && renderedText.includes("专项能力测评择优入班"));
     assert.ok(renderedText.includes(b2bIntroNames[profile]), `${profile}: course-specific class introduction`);
+    assert.ok(html.includes(`/${profile}/tutoring-20260923.webp`), `${profile}: updated tutoring poster`);
+    assert.ok(!html.includes("B端·"), `${profile}: parent-facing title`);
   } else {
     assert.ok(html.includes('aria-label="专业教研"') && html.includes('aria-label="上课老师"'));
   }

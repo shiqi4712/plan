@@ -28,9 +28,12 @@ test("B-end links use independent profile data and dedicated class introductions
     const business = COURSE_PLAN_PROFILES[businessId];
     const source = COURSE_PLAN_PROFILES[sourceId];
     assert.equal(business.id, businessId);
-    assert.ok(business.name.startsWith("B端·"));
+    assert.equal(business.name.startsWith("B端·"), false);
+    assert.ok(business.name.startsWith(business.className));
     assert.equal(business.isB2B, true);
     assert.ok(business.introImage);
+    assert.match(business.tutoringImage?.src ?? "", new RegExp(`/${businessId}/tutoring-20260923\\.webp$`));
+    assert.notEqual(business.tutoringImage?.src, source.tutoringImage?.src);
     assert.notEqual(business.syllabus, source.syllabus);
     assert.notEqual(business.syllabus.stats, source.syllabus.stats);
     assert.notEqual(business.goals, source.goals);

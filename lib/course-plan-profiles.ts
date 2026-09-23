@@ -179,19 +179,22 @@ function cloneProfile(source: CoursePlanProfile, id: string, name: string, overr
 
 export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
   ...CONSUMER_COURSE_PLAN_PROFILES,
-  "b-yucai-rocket": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yucai-rocket"], "b-yucai-rocket", "B端·育才班·火箭", {
-    introImage: material("b-yucai-rocket", "intro", 563, 734, "编程猫育才班科技特长生专属人才培养计划介绍")
+  "b-yucai-rocket": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yucai-rocket"], "b-yucai-rocket", "育才班·小火箭", {
+    introImage: material("b-yucai-rocket", "intro", 563, 734, "编程猫育才班科技特长生专属人才培养计划介绍"),
+    tutoringImage: material("b-yucai-rocket", "tutoring-20260923", 1600, 5071, "小火箭育才班教学与赛考服务")
   }),
-  "b-kete-moon": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-moon"], "b-kete-moon", "B端·科特班·探月", {
-    introImage: material("b-kete-moon", "intro", 543, 721, "编程猫科特班科技特长生专属人才培养计划介绍")
+  "b-kete-moon": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-moon"], "b-kete-moon", "科特班·探月", {
+    introImage: material("b-kete-moon", "intro", 543, 721, "编程猫科特班科技特长生专属人才培养计划介绍"),
+    tutoringImage: material("b-kete-moon", "tutoring-20260923", 1600, 5252, "探月科特班教学与赛考服务")
   }),
-  "b-kete-python": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-python"], "b-kete-python", "B端·科特班·Python", {
-    introImage: material("b-kete-python", "intro", 543, 721, "编程猫科特班科技特长生专属人才培养计划介绍")
+  "b-kete-python": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-python"], "b-kete-python", "科特班·Python", {
+    introImage: material("b-kete-python", "intro", 543, 721, "编程猫科特班科技特长生专属人才培养计划介绍"),
+    tutoringImage: material("b-kete-python", "tutoring-20260923", 1600, 5252, "Python科特班教学与赛考服务")
   }),
-  "b-yingcai-rocket": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yucai-rocket"], "b-yingcai-rocket", "B端·英才班·小火箭", {
+  "b-yingcai-rocket": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yucai-rocket"], "b-yingcai-rocket", "英才班·小火箭", {
     className: "英才班",
     introImage: material("b-yingcai-rocket", "intro", 576, 754, "编程猫小火箭英才班科技特长生专属人才培养计划介绍"),
-    tutoringImage: material("b-yingcai-rocket", "tutoring", 363, 700, "编程猫小火箭英才班教学服务介绍"),
+    tutoringImage: material("b-yingcai-rocket", "tutoring-20260923", 1600, 4293, "小火箭英才班教学与赛考服务"),
     syllabus: {
       title: "小火箭英才班课程大纲",
       stats: [{ value: "25", label: "编程创作项目" }, { value: "500+", label: "互动问答" }, { value: "8大", label: "思维能力" }],
@@ -208,10 +211,10 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
       unlockTime: "18:00", unlockDay: "周五"
     }
   }),
-  "b-yingcai-moon": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-moon"], "b-yingcai-moon", "B端·英才班·探月", {
+  "b-yingcai-moon": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["kete-moon"], "b-yingcai-moon", "英才班·探月", {
     className: "英才班",
     introImage: material("b-yingcai-moon", "intro", 541, 712, "编程猫探月英才班科技特长生专属人才培养计划介绍"),
-    tutoringImage: material("b-yingcai-moon", "tutoring", 422, 802, "编程猫探月英才班教学服务介绍"),
+    tutoringImage: material("b-yingcai-moon", "tutoring-20260923", 1600, 4293, "探月英才班教学与赛考服务"),
     syllabus: {
       ...CONSUMER_COURSE_PLAN_PROFILES["kete-moon"].syllabus,
       title: "探月英才班课程大纲",
@@ -237,9 +240,9 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
       unlockTime: "19:00", liveTime: "18:40"
     }
   }),
-  "b-yingcai-python": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yingcai-python"], "b-yingcai-python", "B端·英才班·Python", {
+  "b-yingcai-python": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yingcai-python"], "b-yingcai-python", "英才班·Python", {
     introImage: material("b-yingcai-python", "intro", 472, 627, "编程猫Python英才班科技特长生专属人才培养计划介绍"),
-    tutoringImage: material("b-yingcai-python", "tutoring", 311, 605, "编程猫Python英才班教学服务介绍"),
+    tutoringImage: material("b-yingcai-python", "tutoring-20260923", 1600, 4293, "Python英才班教学与赛考服务"),
     goals: {
       ...CONSUMER_COURSE_PLAN_PROFILES["yingcai-python"].goals,
       milestones: CONSUMER_COURSE_PLAN_PROFILES["yingcai-python"].goals.milestones.map((milestone) => ({ ...milestone })),
