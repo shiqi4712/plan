@@ -64,6 +64,8 @@ test("robot Yingcai uses its own course materials and milestones", () => {
   assert.equal(robot.goals.title, "赛考目标");
   assert.deepEqual(robot.goals.milestones.map(({ month }) => month), ["1.5", "04", "06"]);
   assert.equal(robot.syllabus.stats[1].value, "90+");
+  assert.equal(robot.syllabus.image.src, "/images/course-plan/b-yingcai-robot/syllabus-hires.jpg");
+  assert.deepEqual([robot.syllabus.image.width, robot.syllabus.image.height], [3334, 5670]);
   assert.match(robot.goals.images[0].src, /b-yingcai-robot\/goals.webp$/);
   assert.match(robot.schedule.image.src, /b-yingcai-robot\/schedule.webp$/);
 });

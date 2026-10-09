@@ -469,7 +469,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
     const image = element.querySelector("img");
     if (!image) return false;
     lightboxTriggerRef.current = element;
-    setLightboxImage({ src: image.currentSrc || image.src, alt: image.alt || element.getAttribute("aria-label") || "课程物料" });
+    setLightboxImage({ src: element.dataset.fullImageSrc || image.currentSrc || image.src, alt: image.alt || element.getAttribute("aria-label") || "课程物料" });
     return true;
   }
 
@@ -788,7 +788,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             {courseLine.id === "python" ? <div><LibraryBig size={19} /><strong>全课程</strong><span>融合小学学科知识<br />侧面提升成绩</span></div> : null}
           </Reveal>}
           {useSharedMaterials ? (
-            <div className="cp-syllabus-detail cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label={`查看大图：${presentation?.syllabus.image.alt ?? "探月图形化科特班进阶课程大纲"}`} title="查看大图">
+            <div className="cp-syllabus-detail cp-motion-image" data-motion-image data-expandable-image data-full-image-src={presentation?.syllabus.image.src} role="button" tabIndex={0} aria-label={`查看大图：${presentation?.syllabus.image.alt ?? "探月图形化科特班进阶课程大纲"}`} title="查看大图">
               <Image
                 className="cp-syllabus-detail-image"
                 src={presentation?.syllabus.image.src ?? "/images/course-plan/kete-syllabus-detail.png"}

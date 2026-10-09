@@ -264,7 +264,7 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
     syllabus: {
       title: "机器人进阶课程大纲",
       stats: [{ value: "100+", label: "机械电子与学科知识点" }, { value: "90+", label: "机器人造型作品" }, { value: "125+", label: "课中答题练习" }],
-      image: material("b-yingcai-robot", "syllabus", 1600, 2721, "机器人进阶课程体系与50课时教学大纲")
+      image: { src: "/images/course-plan/b-yingcai-robot/syllabus-hires.jpg", width: 3334, height: 5670, alt: "机器人进阶课程体系与50课时教学大纲" }
     },
     goals: {
       title: "赛考目标",
