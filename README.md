@@ -1,6 +1,6 @@
 # 编程猫课线培养方案
 
-独立 Next.js 展示项目。5 条家长端链接和 6 条 B 端链接共用页面、动效与翻页交互，分别配置首页班名、班型介绍、课程大纲、学习/赛考目标和上课安排。B 端配置相互独立，便于后续单独更换物料。
+独立 Next.js 展示项目。5 条家长端链接和 7 条 B 端链接共用页面、动效与翻页交互，分别配置首页班名、班型介绍、课程大纲、学习/赛考目标和上课安排。B 端配置相互独立，便于后续单独更换物料。
 
 | 课线 | 正式链接 |
 | --- | --- |
@@ -18,6 +18,7 @@
 | B端·英才班·小火箭 | https://plan.bcmty.cn/course-plan/b-yingcai-rocket |
 | B端·英才班·探月 | https://plan.bcmty.cn/course-plan/b-yingcai-moon |
 | B端·英才班·Python | https://plan.bcmty.cn/course-plan/b-yingcai-python |
+| B端·英才班·机器人 | https://plan.bcmty.cn/course-plan/b-yingcai-robot |
 
 每条课线13页。火箭育才班及幼儿英才班使用“学习目标”，幼儿版保留两张目标海报，使用每周五18:00解锁的独立时间表。幼儿版保留原有 `yucai-preschool` 路径，兼容已发送链接；两版分别配置教学服务海报。根路径 `/` 返回404，请使用完整课线链接。项目提供管理员登录及历史访问后台，不提供家长查询；管理员凭据通过环境配置保存。
 
@@ -39,11 +40,11 @@ npm run build
 npm start -- --hostname 127.0.0.1 --port 3100
 ```
 
-生产服务启动后，可执行 `node scripts/verify-course-plans.mjs http://127.0.0.1:3100` 检查 11 条链接及物料。Google Fonts 不可达时自动回退到本机中文字体。
+生产服务启动后，可执行 `node scripts/verify-course-plans.mjs http://127.0.0.1:3100` 检查 12 条链接及物料。Google Fonts 不可达时自动回退到本机中文字体。
 
 ## 内容维护
 
-- `lib/course-plan-profiles.ts`：5 条家长端及 6 条 B 端配置与物料路径。
+- `lib/course-plan-profiles.ts`：5 条家长端及 7 条 B 端配置与物料路径。
 - `components/CoursePlanViewer.tsx`：共享页面、交互与文案。
 - `app/course-plan/course-plan.css`：布局和动效。
 - `public/images/course-plan/`：本地化物料。

@@ -6,7 +6,7 @@ import { COURSE_PLAN_PROFILES, getCoursePlanProfile } from "../lib/course-plan-p
 
 test("public course links are a fixed whitelist, including safe handling of prototype keys", () => {
   assert.deepEqual(Object.keys(COURSE_PLAN_PROFILES).sort(), [
-    "b-kete-moon", "b-kete-python", "b-yingcai-moon", "b-yingcai-python",
+    "b-kete-moon", "b-kete-python", "b-yingcai-moon", "b-yingcai-python", "b-yingcai-robot",
     "b-yingcai-rocket", "b-yucai-rocket", "kete-moon", "kete-python", "yingcai-python",
     "yucai-preschool", "yucai-rocket"
   ]);
@@ -22,7 +22,8 @@ test("B-end links use independent profile data and dedicated class introductions
     ["b-kete-python", "kete-python"],
     ["b-yingcai-rocket", "yucai-rocket"],
     ["b-yingcai-moon", "kete-moon"],
-    ["b-yingcai-python", "yingcai-python"]
+    ["b-yingcai-python", "yingcai-python"],
+    ["b-yingcai-robot", "yucai-rocket"]
   ] as const;
   for (const [businessId, sourceId] of pairs) {
     const business = COURSE_PLAN_PROFILES[businessId];
@@ -32,7 +33,7 @@ test("B-end links use independent profile data and dedicated class introductions
     assert.ok(business.name.startsWith(business.className));
     assert.equal(business.isB2B, true);
     assert.ok(business.introImage);
-    assert.match(business.tutoringImage?.src ?? "", new RegExp(`/${businessId}/tutoring-20260923\\.webp$`));
+    assert.match(business.tutoringImage?.src ?? "", new RegExp(`/${businessId}/tutoring(?:-20260923)?\\.webp$`));
     assert.notEqual(business.tutoringImage?.src, source.tutoringImage?.src);
     assert.notEqual(business.syllabus, source.syllabus);
     assert.notEqual(business.syllabus.stats, source.syllabus.stats);
@@ -55,6 +56,16 @@ test("new B-end Yingcai links use their supplied course materials", () => {
   assert.equal(python.goals.images.length, 2);
   assert.match(moon.goals.images[1].src, /goals-exam/);
   assert.match(python.goals.images[1].src, /goals-exam/);
+});
+
+test("robot Yingcai uses its own course materials and milestones", () => {
+  const robot = COURSE_PLAN_PROFILES["b-yingcai-robot"];
+  assert.equal(robot.name, "英才班·机器人");
+  assert.equal(robot.goals.title, "赛考目标");
+  assert.deepEqual(robot.goals.milestones.map(({ month }) => month), ["1.5", "04", "06"]);
+  assert.equal(robot.syllabus.stats[1].value, "90+");
+  assert.match(robot.goals.images[0].src, /b-yingcai-robot\/goals.webp$/);
+  assert.match(robot.schedule.image.src, /b-yingcai-robot\/schedule.webp$/);
 });
 
 test("preschool keeps its shared link and learning goals with the new Yingcai timetable", () => {

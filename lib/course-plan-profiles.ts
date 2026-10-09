@@ -153,7 +153,7 @@ export const CONSUMER_PROFILE_IDS = [
 
 export const B2B_PROFILE_IDS = [
   "b-yucai-rocket", "b-kete-moon", "b-kete-python",
-  "b-yingcai-rocket", "b-yingcai-moon", "b-yingcai-python"
+  "b-yingcai-rocket", "b-yingcai-moon", "b-yingcai-python", "b-yingcai-robot"
 ] as const;
 
 function cloneProfile(source: CoursePlanProfile, id: string, name: string, overrides: Partial<CoursePlanProfile> = {}): CoursePlanProfile {
@@ -255,6 +255,33 @@ export const COURSE_PLAN_PROFILES: Record<string, CoursePlanProfile> = {
     schedule: {
       image: material("b-yingcai-python", "schedule", 1600, 920, "Python英才班学习时间安排表"),
       unlockTime: "19:20", liveTime: "19:00"
+    }
+  }),
+  "b-yingcai-robot": cloneProfile(CONSUMER_COURSE_PLAN_PROFILES["yucai-rocket"], "b-yingcai-robot", "英才班·机器人", {
+    className: "英才班",
+    introImage: material("b-yingcai-robot", "intro", 1386, 2001, "英才班机器人课程介绍与培养优势"),
+    tutoringImage: material("b-yingcai-robot", "tutoring", 1600, 2844, "英才班机器人进阶教学服务"),
+    syllabus: {
+      title: "机器人进阶课程大纲",
+      stats: [{ value: "100+", label: "机械电子与学科知识点" }, { value: "90+", label: "机器人造型作品" }, { value: "125+", label: "课中答题练习" }],
+      image: material("b-yingcai-robot", "syllabus", 1600, 2721, "机器人进阶课程体系与50课时教学大纲")
+    },
+    goals: {
+      title: "赛考目标",
+      subtitle: "六个月进阶，完成机器人搭建与能力认证",
+      headline: "学搭建 · 懂力学 · 会设计",
+      description: "从机械结构和传动力学入门，逐步完成项目设计与调试，冲刺 NCT 机器人创意搭建一、二级。",
+      milestones: [
+        { month: "1.5", title: "机械结构入门", description: "掌握基础力学与积木空间关系" },
+        { month: "04", title: "工程结构进阶", description: "理解传动力学，练习搭建与调试" },
+        { month: "06", title: "综合机器人设计", description: "探索电路板与传感器，完成项目创作" }
+      ],
+      outputs: [{ value: "90+", label: "机器人造型作品" }, { value: "150+", label: "跨学科知识点" }, { value: "NCT", label: "机器人创意搭建一、二级" }],
+      images: [material("b-yingcai-robot", "goals", 1600, 1284, "机器人六个月进阶学习及NCT认证目标")]
+    },
+    schedule: {
+      image: material("b-yingcai-robot", "schedule", 1600, 920, "机器人英才班学习时间安排表"),
+      unlockTime: "18:00", unlockDay: "周五"
     }
   })
 };

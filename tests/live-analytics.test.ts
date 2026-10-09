@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { recordEvent, getLiveAnalytics, deleteLiveAnalytics, type TrackEvent } from '../lib/live-analytics-store';
+import { COURSE_PLAN_PROFILES } from '../lib/course-plan-profiles';
 import { POST } from '../app/api/analytics/track/route';
 
 test('persistent visits: retry deduplication, browser UV, course binding, closing attribution, scoped deletion', () => {
@@ -69,6 +70,6 @@ test('B-end visits are accepted and remain separate from matching parent-facing 
     assert.equal(getLiveAnalytics({ ...filter, course: 'b-kete-moon' }).totals.pv, 1);
     const all = getLiveAnalytics({ ...filter, course: 'all' });
     assert.deepEqual(all.totals, { pv: 2, uv: 1, closing: 0, rate: 0 });
-    assert.equal(all.rows.length, 11);
+    assert.equal(all.rows.length, Object.keys(COURSE_PLAN_PROFILES).length);
   } finally { delete process.env.ANALYTICS_DB_FILE; rmSync(dir, { recursive: true, force: true }); }
 });

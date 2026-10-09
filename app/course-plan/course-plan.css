@@ -3344,6 +3344,10 @@ body:has(.course-plan-page--hybrid-trust-active) {
   object-position: center;
 }
 
+.course-plan-page--hybrid .cp-prelude-visual--partners {
+  aspect-ratio: 1060 / 1890;
+}
+
 .course-plan-page--hybrid .cp-prelude-visual-caption {
   position: relative;
   z-index: 3;

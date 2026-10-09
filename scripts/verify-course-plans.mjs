@@ -5,7 +5,7 @@ const profileClasses = {
   "yucai-rocket": "育才班", "yucai-preschool": "英才班", "kete-moon": "科特班",
   "kete-python": "科特班", "yingcai-python": "英才班", "b-yucai-rocket": "育才班",
   "b-kete-moon": "科特班", "b-kete-python": "科特班", "b-yingcai-rocket": "英才班",
-  "b-yingcai-moon": "英才班", "b-yingcai-python": "英才班"
+  "b-yingcai-moon": "英才班", "b-yingcai-python": "英才班", "b-yingcai-robot": "英才班"
 };
 const profiles = Object.keys(profileClasses);
 const b2bIntroNames = {
@@ -14,7 +14,8 @@ const b2bIntroNames = {
   "b-kete-python": "科特班 · Python",
   "b-yingcai-rocket": "英才班 · 小火箭",
   "b-yingcai-moon": "英才班 · 探月",
-  "b-yingcai-python": "英才班 · Python"
+  "b-yingcai-python": "英才班 · Python",
+  "b-yingcai-robot": "英才班 · 机器人"
 };
 const learningProfiles = new Set(["yucai-rocket", "yucai-preschool", "b-yucai-rocket", "b-yingcai-rocket"]);
 const checkedAssets = new Set();
@@ -25,6 +26,7 @@ for (const profile of profiles) {
   const renderedText = html.replaceAll("<!-- -->", "");
   assert.equal((html.match(/<section\b/g) ?? []).length, 13, `${profile}: expected 13 pages`);
   assert.ok(html.includes("奠定少儿编程领域第一") && html.includes("codemao-authority-partners.webp"), `${profile}: latest closing copy and poster`);
+  assert.ok(html.includes("brand-trust-partners.webp"), `${profile}: trust partner poster`);
   assert.ok(!html.includes("MONTHS"), `${profile}: Chinese month labels`);
   assert.ok(html.includes(learningProfiles.has(profile) ? 'aria-label="学习目标"' : 'aria-label="赛考目标"'));
   const className = profileClasses[profile];
@@ -39,7 +41,7 @@ for (const profile of profiles) {
     assert.ok(!html.includes('aria-label="专业教研"') && html.includes('aria-label="上课老师"'));
     assert.ok(renderedText.includes("专业教研支撑 · 体系实力升级") && renderedText.includes("专项能力测评择优入班"));
     assert.ok(renderedText.includes(b2bIntroNames[profile]), `${profile}: course-specific class introduction`);
-    assert.ok(html.includes(`/${profile}/tutoring-20260923.webp`), `${profile}: updated tutoring poster`);
+    assert.ok(html.includes(`/${profile}/${profile === "b-yingcai-robot" ? "tutoring" : "tutoring-20260923"}.webp`), `${profile}: tutoring poster`);
     assert.ok(!html.includes("B端·"), `${profile}: parent-facing title`);
   } else {
     assert.ok(html.includes('aria-label="专业教研"') && html.includes('aria-label="上课老师"'));

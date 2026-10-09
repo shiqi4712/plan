@@ -116,6 +116,7 @@ const B2B_INTRO_PILLARS = [
 ] as const;
 
 function getB2BIntroHeadline(profile: CoursePlanProfile): string {
+  if (profile.id === "b-yingcai-robot") return "动手搭建机器人，进阶工程思维与创造力";
   if (profile.className === "育才班") return "专业启蒙，夯实编程思维与科创基础";
   if (profile.className === "科特班" && profile.courseLine === "moon") return "图形化编程进阶，定制科技特长成长路径";
   if (profile.className === "科特班") return "Python 能力进阶，定制科技特长成长路径";
@@ -125,7 +126,7 @@ function getB2BIntroHeadline(profile: CoursePlanProfile): string {
 }
 
 function getB2BIntroName(profile: CoursePlanProfile): string {
-  const courseName = profile.courseLine === "rocket" ? "小火箭" : profile.courseLine === "moon" ? "探月" : "Python";
+  const courseName = profile.id === "b-yingcai-robot" ? "机器人" : profile.courseLine === "rocket" ? "小火箭" : profile.courseLine === "moon" ? "探月" : "Python";
   return `${profile.className} · ${courseName}`;
 }
 
@@ -669,6 +670,15 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               />
             </div>
             <div className="cp-prelude-visual-caption"><span>ACADEMIC ALLIANCE</span><b>权威学术资源 × 长期科技教育实践</b></div>
+            <div className="cp-prelude-visual cp-prelude-visual--trust cp-prelude-visual--partners cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：编程猫合作伙伴与权威机构" title="查看大图">
+              <Image
+                src="/images/course-plan/brand-trust-partners.webp"
+                alt="编程猫与北京大学、IOI等机构的合作与认可海报"
+                width={1060}
+                height={1890}
+                sizes="(max-width: 519px) calc(100vw - 36px), 394px"
+              />
+            </div>
           </section>
         ) : null}
 
@@ -840,7 +850,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               index="05"
               label="TUTORING"
               title={`${heroTitle.main} 上课模式`}
-              subtitle={useSharedMaterials ? "直播 + 实操 + 遇到问题预约1V1辅导" : "课前、课中、课后都有老师实时跟进，学习过程更安心。"}
+              subtitle={presentation?.id === "b-yingcai-robot" ? "进阶教研老师辅导，课中答疑与阶段反馈" : useSharedMaterials ? "直播 + 实操 + 遇到问题预约1V1辅导" : "课前、课中、课后都有老师实时跟进，学习过程更安心。"}
             />
           </Reveal>
           {useSharedMaterials ? (
@@ -896,7 +906,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             <div className="cp-schedule-steps">
               <div>
                 <span><CalendarDays size={18} /></span>
-                <div><small>01</small><strong>{presentation ? (presentation.schedule.liveTime ? "课前真人直播" : "每周固定解锁新课") : "灵活选择上课时间"}</strong><p>{presentation ? (presentation.schedule.liveTime ? `周四、周五、周六三选一，${presentation.schedule.liveTime}开课；错过可联系老师补课。` : `每${presentation.schedule.unlockDay} ${presentation.schedule.unlockTime}解锁编程实操课，每周1次，每次2课时。`) : "根据孩子的日常安排，自由选择合适时段。"}</p></div>
+                <div><small>01</small><strong>{presentation ? (presentation.schedule.liveTime ? "课前真人直播" : "每周固定解锁新课") : "灵活选择上课时间"}</strong><p>{presentation ? (presentation.schedule.liveTime ? `周四、周五、周六三选一，${presentation.schedule.liveTime}开课；错过可联系老师补课。` : `每${presentation.schedule.unlockDay} ${presentation.schedule.unlockTime}解锁${presentation.id === "b-yingcai-robot" ? "机器人" : "编程"}实操课，每周1次，每次2课时。`) : "根据孩子的日常安排，自由选择合适时段。"}</p></div>
               </div>
               <div>
                 <span><Clock3 size={18} /></span>
