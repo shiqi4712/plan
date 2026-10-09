@@ -10,8 +10,7 @@ const materials = [
   ["课程大纲.png", "b-yingcai-robot/syllabus.webp"],
   ["赛考目标.png", "b-yingcai-robot/goals.webp"],
   ["时间安排.png", "b-yingcai-robot/schedule.webp"],
-  ["教学服务.jpg_a96b91e82d1c8e75fa69e8b1aa6db504", "b-yingcai-robot/tutoring.webp"],
-  ["信任编程猫1.png", "brand-trust-partners.webp"]
+  ["教学服务.jpg_a96b91e82d1c8e75fa69e8b1aa6db504", "b-yingcai-robot/tutoring.webp"]
 ];
 
 for (const [filename, relative] of materials) {

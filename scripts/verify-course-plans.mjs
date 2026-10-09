@@ -25,8 +25,8 @@ for (const profile of profiles) {
   const html = await response.text();
   const renderedText = html.replaceAll("<!-- -->", "");
   assert.equal((html.match(/<section\b/g) ?? []).length, 13, `${profile}: expected 13 pages`);
-  assert.ok(html.includes("奠定少儿编程领域第一") && html.includes("codemao-authority-partners.webp"), `${profile}: latest closing copy and poster`);
-  assert.ok(html.includes("brand-trust-partners.webp"), `${profile}: trust partner poster`);
+  assert.ok(html.includes("奠定少儿编程领域第一") && html.includes("codemao-authority-partners-20261009.webp"), `${profile}: latest closing copy and poster`);
+  assert.ok(html.includes("brand-trust-pku.png") && !html.includes("brand-trust-partners.webp"), `${profile}: original trust poster only`);
   assert.ok(!html.includes("MONTHS"), `${profile}: Chinese month labels`);
   assert.ok(html.includes(learningProfiles.has(profile) ? 'aria-label="学习目标"' : 'aria-label="赛考目标"'));
   const className = profileClasses[profile];

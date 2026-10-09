@@ -670,15 +670,6 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
               />
             </div>
             <div className="cp-prelude-visual-caption"><span>ACADEMIC ALLIANCE</span><b>权威学术资源 × 长期科技教育实践</b></div>
-            <div className="cp-prelude-visual cp-prelude-visual--trust cp-prelude-visual--partners cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：编程猫合作伙伴与权威机构" title="查看大图">
-              <Image
-                src="/images/course-plan/brand-trust-partners.webp"
-                alt="编程猫与北京大学、IOI等机构的合作与认可海报"
-                width={1060}
-                height={1890}
-                sizes="(max-width: 519px) calc(100vw - 36px), 394px"
-              />
-            </div>
           </section>
         ) : null}
 
@@ -956,9 +947,9 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             </Reveal>
             <div className="cp-closing-poster cp-motion-image" data-motion-image data-expandable-image role="button" tabIndex={0} aria-label="查看大图：编程猫权威合作机构" title="查看大图">
               <Image
-                src="/images/course-plan/codemao-authority-partners.webp"
-                alt="编程猫与北京大学共建人工智能教育联合实验室，并与联合国教科文组织、教育部教育技术与资源发展中心、IOI及中国计算机学会开展官方合作"
-                width={1440}
+                src="/images/course-plan/codemao-authority-partners-20261009.webp"
+                alt="北京大学与点猫科技联合实验室及IOI、联合国教科文组织、教育部教育技术与资源发展中心、中国计算机学会、中国人工智能学会合作机构海报"
+                width={1436}
                 height={1280}
                 quality={92}
                 sizes="(max-width: 479px) calc(100vw - 48px), 382px"
@@ -967,7 +958,7 @@ export function CoursePlanViewer({ variant = "default", profile }: { variant?: "
             <Reveal className="cp-closing-story" delay={130}>
               <h3>做适合中国孩子的少儿编程</h3>
               <p>成立于2015年，以丰富的产品线与多样的课程形式，持续深耕少儿编程。11年专注，累计服务<strong>70000+所学校</strong>，把专业积累带进更多孩子的编程课堂。</p>
-              <p className="cp-closing-partnerships"><strong>五大权威组织机构认证</strong><span>联合国教科文组织、教育部教育技术与资源发展中心、国际信奥赛（IOI）、中国计算机学会、中国人工智能学会。</span></p>
+              <p className="cp-closing-partnerships"><strong>北大联合共建及五大机构合作</strong><span>联合国教科文组织、教育部教育技术与资源发展中心、国际信奥赛（IOI）、中国计算机学会、中国人工智能学会。</span></p>
             </Reveal>
             <Reveal className="cp-closing-signoff" delay={180}>
               <span>用心做好编程教育</span>

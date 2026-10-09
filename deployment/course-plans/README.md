@@ -23,7 +23,7 @@
 
 `lib/course-plan-profiles.ts` 管理首页班名、课程大纲、目标和时间表。共同页面与动效由 `components/CoursePlanViewer.tsx` 管理。育才班目标标题统一为“学习目标”；幼儿版保留两张目标图，按用户确认与火箭版共用时间表。图片已存入 `public/images/course-plan/`，服务器不依赖本地桌面文件。
 
-机器人英才班的物料可通过 `node scripts/import-robot-materials.mjs "物料文件夹路径"` 导入；品牌信任页新增的合作机构海报由全部课线共用。
+机器人英才班的物料可通过 `node scripts/import-robot-materials.mjs "物料文件夹路径"` 导入；最后一页的合作机构海报由全部课线共用。
 
 更新原始物料后，可在项目根目录执行 `node scripts/import-course-materials.mjs "物料文件夹路径"` 生成 WebP。若图片比例改变，同时更新配置中的宽高；新增目标海报需加入 `goals.images` 数组。不同物料不要复用同一资源文件名，以免旧缓存影响显示。
 
